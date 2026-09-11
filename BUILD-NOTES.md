@@ -85,3 +85,22 @@ does not exist yet; it will by the time the orchestrator builds.
 The orchestrator runs `next dev` on http://localhost:3000 during Phase 2. Do not start your own server. Screenshot with
 `node scripts/shot.mjs http://localhost:3000/<route> C:/Users/hales/enterprise-hr-finance/gauntlet/<name> --widths 1440,390 --full`
 and view the PNGs with the Read tool. Fix console errors the script prints.
+
+## 9. Where this landed
+
+The blind gauntlet ran eight rounds and 372 judgements. The final round took 44 of 51, with perfect records against
+Attio (9-0), Ramp (10-0), Brex (6-0), Mercury (6-0), Anthropic (3-0) and Harvey (1-0); Stripe's home hero is the only
+reference that reliably wins anything. Asked which set it would ship without knowing which was which, the last critic
+picked Meridian, and its single strongest recommendation for improving "the weaker side" was about Stripe's chat
+overlay covering its own cards.
+
+Two notes were never fully resolved and are worth stating plainly:
+
+1. **The hero object.** Every round flagged it. It is now a graticule whose agent nodes drive the approval card beneath
+   it, so it argues the product rather than decorating the page, but several critics would still replace it with a
+   product screenshot outright. Three.js in the hero was a requirement of the brief, so it stayed and was made to earn
+   its place instead.
+2. **Template sameness.** One critic identified the site as the non-production one precisely because seventeen page
+   types share an opening move: eyebrow, serif headline, one paragraph, hairline spec panel at right. That discipline is
+   why the interior pages beat their references, and it is also the thing that makes the site legible as a system. If a
+   future pass wants more range, vary the opening per template rather than loosening the system.
