@@ -2,17 +2,23 @@
 
 **Live site:** https://enterprise-hr-finance.vercel.app · **Repo:** https://github.com/alessoh/enterprise-hr-finance
 
-## The story this script tells
+## Shape of the video
 
-**Work that stopped itself, and the person who had to decide.**
+**Say what it is in the first fifteen seconds. Then show the five pieces that matter.**
 
-A payroll run halts because three employees are missing I-9s. A duplicate invoice is caught before it
-goes out twice. Both land in front of a human. That is the entire pitch, and the video follows that one
-thread from the hero, into the agent that caught it, into the live workspace where a person clicks
-Approve, then down into the governance that proves who decided and the meter that bills for it.
+1. **0:00** What Meridian is, and the one mechanic that defines it — agents run the work, a question box
+   appears when a human is needed. The globe is that system, drawn.
+2. **0:30** Piece one — the twelve agents.
+3. **0:50** Piece two — what each agent is allowed to do, and what it can never do alone.
+4. **1:20** Piece three — the system running live, and the question box being answered.
+5. **2:00** Piece four — why an enterprise would trust it.
+6. **2:25** Piece five — how it bills.
+7. **2:50** Close.
 
-Every page in this video answers the same question a CFO asks: **if software is doing the work, who is
-accountable?** Do not tour features. Follow the decision.
+No mystery, no build-up. A judge should know what this product is before the first sentence ends.
+
+> **Note:** the site ships **twelve** agents, not eleven. Say twelve — it is what is on screen and in
+> the repository, and a judge will count the cards.
 
 ---
 
@@ -28,8 +34,7 @@ accountable?** Do not tour features. Follow the decision.
 Dismiss the announcement bar once (the **×** at the far right of the strip at the very top) before the
 first take, so the page cannot shift mid-shot.
 
-**Pre-open five tabs in this order**, then come back to tab 1 to start. Switching tabs on camera is
-faster than typing URLs and keeps the pace up.
+**Pre-open five tabs in this order**, then come back to tab 1 to start.
 
 | Tab | URL |
 |---|---|
@@ -39,154 +44,133 @@ faster than typing URLs and keeps the pace up.
 | 4 | `enterprise-hr-finance.vercel.app/security` |
 | 5 | `enterprise-hr-finance.vercel.app/pricing` |
 
-**Do not pre-open the dashboard.** You open it live on camera at 1:25 so the stream is seen connecting.
-That is the whole point of that shot.
+**Do not pre-open the dashboard.** You open it live on camera at 1:20 so the stream is seen connecting.
 
-**How to find each stop.** Every beat names the exact heading to scroll to, and gives the pixel depth as
-a cross-check. Aim for the heading, not the number. Scroll smoothly, roughly 800 px per second — fast
-scrolling reads as panic on a screencast.
+**Finding each stop.** Every beat names the exact heading to scroll to and gives its measured pixel
+depth as a cross-check. Aim for the heading. Scroll at roughly 800 px per second.
 
-**One thing about the hero card.** The card in the right half of the hero is driven by the live event
-engine, so its contents change every few seconds and the dollar amounts differ on every take. Never
-read an exact figure from it in narration. The script below is written so it works whatever is on
-screen.
+**The hero card changes by itself** every few seconds, and its dollar amounts are generated fresh on
+every take. Never read a figure off it. The script works whatever is showing.
 
 ---
 
-## 0:00 — 0:30 · The hook: work that stopped itself
+## 0:00 — 0:30 · What this is
 
-**Screen.** Tab 1, home page, top of the page, nothing scrolled.
+**Screen.** Tab 1, home page, top of page, nothing scrolled. The globe is turning on the right. Beneath
+it sits a card captioned **AT THE GATEWAY** with an amber **Needs approval** tag and **Approve** /
+**Decline** buttons.
 
-In the right half of the hero, under the rotating globe, is a card captioned **AT THE GATEWAY** with an
-amber **Needs approval** tag and two buttons, **Approve** and **Decline**. On a fresh load it reads
-*"Blocked run · pre-flight check failed · 3 missing I-9 verifications · Payroll."* Start talking on that
-card.
+**Action.** Start talking immediately. No silent beauty shot.
 
-**Action.** Rest the cursor just beside the card. Do not click.
+> "This is Meridian, an AI-native SaaS for enterprise HR and finance. Twelve agents run the work
+> automatically, around the clock. When something needs a decision, a question box appears in front of a
+> human."
 
-> "A payroll run just stopped itself. Three people are missing I-9 verifications, so the agent held the
-> run and put it in front of a human."
+**Action.** Move the cursor to the globe and hold it beside the vertical blue line.
 
-**Action.** Within about three seconds the card changes on its own, as a blue dot on the globe crosses
-the blue line. It will usually change to a flagged duplicate invoice. Point at the card as it changes.
+> "That is what the globe shows. Each dot is an agent, the blue line is the governance check, and when
+> an agent crosses it the card shows what it did and what a person must approve."
 
-> "And there's the next one. Different agent, a duplicate invoice, caught before it paid twice."
+**Action.** The card changes on its own within a few seconds. Point at it as it changes, and stop
+talking for a beat so the viewer sees the swap.
 
-**Action.** Move the cursor to the vertical blue line on the globe and hold it there.
+> "Now the five pieces that make it work."
 
-> "That's Meridian. Twelve AI agents doing HR and finance work. Each dot is an agent, and the blue line
-> is the governed one."
-
-*Proves the thesis on a live screen in thirty seconds. If the card has not changed by the time you
-finish the first paragraph, wait for it — the change is the proof.*
+*By 0:30 a judge knows the category, the mechanic and the promise. Everything after this is evidence.*
 
 ---
 
-## 0:30 — 0:55 · How a buyer reads the catalog
+## 0:30 — 0:50 · Piece one: the twelve agents
 
-**Screen.** Still tab 1. Scroll down to the heading **Six terms every agent runs under.** (about
-1,740 px). Stop with all six numbered terms in frame and hold for two seconds before speaking.
+**Screen.** Switch to tab 2 (`/agents`). Scroll from the top past the heading **HR agents**, stopping
+with **Finance agents** near the top of the frame (about 1,767 px) and its cards visible.
 
-> "Buyers here don't have a model problem, they have a governance problem. So every agent ships under the
-> same six terms: one workflow, only permitted data, every action logged, human approval, a measurable
-> outcome, your choice of model."
+> "Piece one, the agents. Twelve of them, each doing exactly one job — HR cases, payroll, shift
+> coverage, month-end close, audit evidence, contract redlines. Every card names the job and the number
+> that agent is accountable for. Narrow is what makes them deployable."
 
-**Action.** Switch to tab 2 (`/agents`). Scroll from the top past the group heading **HR agents**, and
-stop when **Finance agents** is near the top of the frame (about 1,767 px) with its cards visible.
-
-> "Twelve agents, grouped the way the buying committee is. Each names one job and the number it's
-> accountable for. Narrow is what actually gets deployed."
-
-*Proves market fit and innovation. Governance is the organising idea of the whole site, not a compliance
-page bolted on at the end.*
+*Value stated plainly: this is a workforce, not a chatbot, and each worker has a number attached.*
 
 ---
 
-## 0:55 — 1:25 · The agent that caught the invoice
+## 0:50 — 1:20 · Piece two: what an agent may and may not do
 
-**Screen.** Switch to tab 3 (`/agents/controls`). Start at the top with the H1 **Controls Agent** and the
-outcome figure in the card beside it both visible.
+**Screen.** Switch to tab 3 (`/agents/controls`). Start at the top with the H1 **Controls Agent** and
+the outcome figure in the card beside it both in frame.
 
-> "Here's the agent that caught that invoice. It tests every transaction for duplicates and policy
-> breaches. Two hundred and eighty-three thousand dollars a year in duplicate payments avoided at one
-> design partner, footnoted as a modelled outcome."
+> "Piece two. Take the Controls Agent: it tests every transaction for duplicates and policy breaches.
+> Two hundred and eighty-three thousand dollars a year in duplicate payments avoided at one design
+> partner."
 
 **Action.** Scroll to the heading **Data, actions, and approvals** (about 2,686 px). Three columns sit
-under it: **Data it reads**, **Actions it takes**, **What needs approval**. Frame all three at once, then
-move the cursor across them left to right while you say the next line. Hold this frame; it is the
-strongest single shot in the video.
+under it: **Data it reads**, **Actions it takes**, **What needs approval**. Frame all three at once and
+move the cursor across them left to right. Hold this frame — it is the strongest shot in the video.
 
-> "And this is what procurement reads, on all twelve pages. What it sees. What it can do alone. What it
-> can never do without a person."
+> "And this is on all twelve agent pages. What it sees. What it can do alone. What it can never do
+> without a person. Stopping a payment is in that third column."
 
-*Proves governance depth, which is twenty percent of the score.*
+*This is the slide a procurement reviewer screenshots. Give it time.*
 
 ---
 
-## 1:25 — 2:00 · The live workspace, and the decision
+## 1:20 — 2:00 · Piece three: the system running, and the question box answered
 
-**Screen.** Open a new tab and type `enterprise-hr-finance.vercel.app/dashboard` on camera. Let it load
-while you speak — the fresh connection is the evidence.
+**Screen.** Open a new tab and type `enterprise-hr-finance.vercel.app/dashboard` on camera. A fresh load
+is the evidence that this is live.
 
-> "That workspace, running. This is a live stream, not a recording."
+> "Piece three: the system running. This is a live stream, not a recording."
 
-**Action.** Stop talking. Let the feed run in **silence for twelve seconds** while new rows arrive at the
-top. Do not move the cursor. This is the most persuasive moment in the video, and narration would waste
-it. If a take runs short overall, lengthen this, not the talking.
+**Action.** Stop talking. Let the feed run in **silence for twelve seconds** while new rows arrive at
+the top. Do not move the cursor. This is the most persuasive moment in the video.
 
-> "Every row is an action, what it cost, and whether a person still has to decide. Amber means one thing
-> here: a human must approve."
+> "Every row is an agent action, what it cost, and whether a person still has to decide. Amber means
+> one thing here: a human must approve."
 
 **Action.** Scroll to the heading **Awaiting your approval** (about 1,286 px). Five rows sit under it,
 each with **Approve** and **Decline**. Pick the row with the largest dollar amount, hover it for one
-second so the viewer's eye lands there, then click **Approve** and let the row resolve on camera.
+second, then click **Approve** and let the row resolve on camera.
 
-> "The agent found it, held it, and a named person released it. That record is what an auditor asks for."
+> "And there is the question box from the opening, for real. The agent found it, held it, and a person
+> releases it. That record is what an auditor asks for."
 
 **Action.** Scroll up to the heading **Credits · Growth plan** (975 px) and rest the cursor on the meter.
 
-> "And every action meters against the plan's allowance."
+> "Every action meters against the plan's allowance."
 
-*Proves architecture, the working-demo requirement, and the billing model in one continuous shot.
-Rehearse the click — a misclick here costs a whole retake.*
+*Closes the loop opened at 0:00. Rehearse the click — a misclick costs the whole take.*
 
 ---
 
-## 2:00 — 2:25 · What holds it up
+## 2:00 — 2:25 · Piece four: why an enterprise would trust it
 
 **Screen.** Switch to tab 4 (`/security`). Scroll to the heading **Four controls, enforced below the
 agent.** (about 1,720 px).
 
-> "Underneath: four controls enforced below the agent, not inside its prompt. Scope. Inherited
+> "Piece four, trust. Four controls enforced below the agent, not inside its prompt. Scope. Inherited
 > permissions. Approval gates. A hash-chained log."
 
 **Action.** Keep scrolling to **Where data goes, and where it does not.** (about 6,180 px) and stop with
 the diagram filling the frame.
 
-> "No training on customer data. Reads scoped and logged. Residency per workspace. Everything a security
-> reviewer asks, on one page."
-
-*Proves enterprise governance and compliance, the other twenty percent. Two frames, no wandering.*
+> "No training on customer data. Every read scoped and logged. Residency per workspace. Everything a
+> security reviewer asks, answered on one page."
 
 ---
 
-## 2:25 — 2:50 · How it makes money
+## 2:25 — 2:50 · Piece five: how it bills
 
 **Screen.** Switch to tab 5 (`/pricing`), top of page, three plans in frame. Click the **Annual** toggle
-so every price visibly changes, then click **Monthly** to put it back.
+so every price visibly changes, then click **Monthly** to restore.
 
-> "Pricing is consumption, not seats. When software does the work, charging per human charges for the
-> wrong thing. You buy credits and spend them per completed action."
+> "Piece five, the business model. Consumption, not seats. When software does the work, charging per
+> human charges for the wrong thing. You buy credits per completed action."
 
 **Action.** Scroll to the heading **Size your credit pool** (about 2,816 px). Under **Your volumes** on
-the left are five sliders. Drag **HR cases per month** slowly up to about double its starting value and
-let the panel on the right recalculate on screen.
+the left are five sliders. Drag **HR cases per month** slowly to about double and let the panel on the
+right recalculate on screen.
 
-> "Put in your volumes and it returns a credit estimate, the plan that fits, and the hours it hands back.
-> Stripe is wired end to end."
-
-*Proves monetisation. The live recalculation is the evidence — make sure the right-hand panel is legible
-in frame while you drag.*
+> "Put in your volumes and it sizes the plan, the credits, and the hours it hands back. Stripe is wired
+> end to end."
 
 ---
 
@@ -195,7 +179,7 @@ in frame while you drag.*
 **Screen.** Back to tab 1, top of the home page.
 
 > "A hundred and sixty-five pages, sub-second load, zero layout shift. The execution layer is next, and
-> the dashboard says so. It's live, and the repo is public."
+> the dashboard says so. It is live, and the repository is public."
 
 *End on the product. No thank-you card, no logo animation.*
 
@@ -203,19 +187,18 @@ in frame while you drag.*
 
 ## Recording notes
 
-- **The twelve seconds of silence at 1:35 is scripted, not dead air.** If it feels long while recording,
+- **Lead with the sentence, not the visuals.** The first twelve words have to name the category. Do not
+  open on a silent globe shot.
+- **The twelve seconds of silence at 1:30 is scripted, not dead air.** If it feels long while recording,
   it is working. Cut anything else first.
-- **Never read a dollar figure off the hero card.** Those amounts are generated live and differ every
-  take. The $283,000 on the Controls Agent page is static and safe to say.
+- **Say twelve agents.** The site ships twelve; a judge will count the cards.
+- **Never read a dollar figure off the hero card.** Those regenerate every take. The $283,000 on the
+  Controls Agent page is static and safe to say.
 - **Rehearse the Approve click** on the dashboard once before the real take.
-- **Keep the cursor still** unless it is pointing at the thing you are naming in that sentence.
-- **The script is 373 spoken words.** At a calm 135 words per minute that is 2:46 of speech plus the 12
-  seconds of silence, so 2:58 — with almost nothing spare. Speak at a measured pace and let the scroll
-  transitions ride under the narration rather than pausing between them. If you overrun, cut from the
-  0:30–0:55 catalog beat. Never cut the dashboard beat.
-- **The hackathon allows 2 to 5 minutes**, so landing at 3:10 or 3:20 is safe. Do not rush to hit 3:00
-  exactly; rushed narration costs more than twenty seconds of runtime.
+- **Keep the cursor still** unless it is pointing at what you are naming in that sentence.
+- **The script is 390 spoken words**, about 2:53 at a calm 135 words per minute, plus the 12 seconds of
+  silence: roughly 3:05 including scrolls and tab switches.
+- **The hackathon allows 2 to 5 minutes**, so landing anywhere from 2:45 to 3:20 is safe. Do not rush.
 - **If the globe does not appear**, you are under 768 px wide, zoomed in, or have reduced motion enabled
-  — the site deliberately serves a static poster in those cases. Check the window is 1440 × 900 at 100%.
-- **Record the dashboard beat last** if you are short on time; it is the one shot that cannot be faked
-  and the one judges will replay.
+  — the site serves a static poster in those cases by design. Check the window is 1440 × 900 at 100%.
+- **Record the dashboard beat last** if time is short. It is the one shot that cannot be faked.
