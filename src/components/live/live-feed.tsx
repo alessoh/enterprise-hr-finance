@@ -21,10 +21,14 @@ const KIND_LABEL: Record<AgentEvent["kind"], string> = {
   screened: "Screened",
 };
 
-/** HH:MM:SS in the viewer's locale, fixed width so rows never shift. */
+/**
+ * HH:MM:SS read straight off the ISO string, so the server and the browser always
+ * produce the same characters. `toLocaleTimeString` renders in the runtime's own
+ * timezone, which is UTC on the server and local in the browser: that mismatch is a
+ * hydration error, and it only shows once the two differ in production.
+ */
 function clock(ts: string): string {
-  const date = new Date(ts);
-  return date.toLocaleTimeString("en-GB", { hour12: false });
+  return ts.slice(11, 19);
 }
 
 export interface LiveFeedProps {

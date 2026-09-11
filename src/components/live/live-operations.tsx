@@ -25,7 +25,7 @@ export function LiveOperations({ snapshot, variant = "compact", className }: Liv
       </div>
       <div className="flex items-center justify-between border-b border-border bg-bg-subtle px-4 py-2">
         <span className="text-[11px] font-medium uppercase tracking-[0.08em] text-fg-subtle">
-          Operations feed
+          Operations feed <span className="normal-case tracking-normal">· times in UTC</span>
         </span>
         <LiveDot status={status} />
       </div>
