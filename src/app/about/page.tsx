@@ -411,10 +411,10 @@ export default function AboutPage() {
             written plan and a credit estimate.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <Button asChild size="lg" arrow>
+            <Button asChild size="lg">
               <Link href={siteConfig.links.demo}>Book a demo</Link>
             </Button>
-            <Button asChild size="lg" variant="secondary">
+            <Button asChild size="lg" variant="secondary" arrow>
               <Link href="/agents">See the agents</Link>
             </Button>
           </div>

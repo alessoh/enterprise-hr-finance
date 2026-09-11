@@ -22,10 +22,10 @@ export function PlatformCta({ title = homeCopy.finalCta.title, lede = homeCopy.f
         </h2>
         <p className="text-lede mt-4 max-w-[52ch] text-pretty">{lede}</p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <Button asChild size="lg" arrow>
+          <Button asChild size="lg">
             <Link href={primary.href}>{primary.label}</Link>
           </Button>
-          <Button asChild size="lg" variant="secondary">
+          <Button asChild size="lg" variant="secondary" arrow>
             <Link href={secondary.href}>{secondary.label}</Link>
           </Button>
         </div>

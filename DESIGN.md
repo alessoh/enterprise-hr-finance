@@ -191,3 +191,9 @@ Purple-blue gradients; glassmorphism on anything but the scrolled header; emoji 
 ## 10. Copy rules (from BRIEF §2)
 
 Meridian, never "Meridian AI". Legal: Meridian Systems, Inc. Voice: precise, confident, calm, concrete; short sentences; numbers over adjectives. Banned: revolutionary, supercharge, unleash, seamless, cutting-edge, next-gen, unlock. No emoji, no exclamation marks. "Narrow, governed agents", not chatbots. Model posture: "supports" / "bring your own model", never "partnered with". No real vendor names from the briefing, no real customer logos, no real people. Every outcome figure carries the footnote "Modeled outcomes from design-partner deployments."
+
+## 11. CTA arrow convention
+
+A trailing arrow marks a move to another page to look at something ("See it live", "Read the story"). It never appears
+on the primary conversion button ("Book a demo", "Start free"): that button is the end of the journey, not a step in it.
+So in a primary/secondary pair the arrow belongs to the secondary. Never put an arrow on both.

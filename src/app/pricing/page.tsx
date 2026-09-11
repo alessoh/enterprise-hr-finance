@@ -180,10 +180,10 @@ export default function PricingPage() {
             security contact for your review.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <Button asChild size="lg" arrow>
+            <Button asChild size="lg">
               <Link href={SALES_HREF}>Talk to sales</Link>
             </Button>
-            <Button asChild size="lg" variant="secondary">
+            <Button asChild size="lg" variant="secondary" arrow>
               <Link href="/trust">Read the trust center</Link>
             </Button>
           </div>

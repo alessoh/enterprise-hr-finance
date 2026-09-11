@@ -150,10 +150,10 @@ export default async function AgentPage({ params }: { params: Params }) {
               </h1>
               <p className="text-lede mt-6 max-w-[60ch] text-pretty">{definitionalLede(agent)}</p>
               <div className="mt-8 flex flex-wrap items-center gap-3">
-                <Button asChild size="lg" arrow>
+                <Button asChild size="lg">
                   <Link href={homeCopy.hero.primaryCta.href}>{homeCopy.hero.primaryCta.label}</Link>
                 </Button>
-                <Button asChild size="lg" variant="secondary">
+                <Button asChild size="lg" variant="secondary" arrow>
                   <Link href={homeCopy.hero.secondaryCta.href}>{homeCopy.hero.secondaryCta.label}</Link>
                 </Button>
               </div>

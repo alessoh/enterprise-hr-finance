@@ -321,10 +321,10 @@ export default function CareersPage() {
             One form, one message, one reply from a person. Name the role and link to something you built.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <Button asChild size="lg" arrow>
+            <Button asChild size="lg">
               <Link href="/contact?intent=support">Apply for a role</Link>
             </Button>
-            <Button asChild size="lg" variant="secondary">
+            <Button asChild size="lg" variant="secondary" arrow>
               <Link href="/about">About Meridian</Link>
             </Button>
           </div>

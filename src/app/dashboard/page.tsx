@@ -55,7 +55,9 @@ export default function DashboardPage() {
 
       <Container size="wide">
         <div className="grid gap-6 py-8 lg:grid-cols-12 lg:py-10">
-          <aside className="lg:col-span-3">
+          {/* The feed is the page. On narrow screens it comes first; the rail,
+              credits and utilization follow. */}
+          <aside className="order-2 lg:order-1 lg:col-span-3">
             <div className="overflow-hidden rounded-xl bg-bg-elevated ring-1 ring-border">
               <div className="border-b border-border bg-bg-subtle px-4 py-2">
                 <h2 className="text-[11px] font-medium uppercase tracking-[0.08em] text-fg-subtle">
@@ -72,7 +74,7 @@ export default function DashboardPage() {
             </div>
           </aside>
 
-          <div className="lg:col-span-9">
+          <div className="order-1 lg:order-2 lg:col-span-9">
             <div className="overflow-hidden rounded-xl bg-bg-elevated ring-1 ring-border">
               <LiveOperations snapshot={snapshot} variant="full" />
             </div>
