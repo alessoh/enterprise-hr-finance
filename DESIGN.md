@@ -60,8 +60,8 @@ All tokens are OKLCH. Hex values are the sRGB render for reference only. Light m
 | border | 0.91 0.006 80 | #e3e1dd | hairlines (the default border) |
 | border-strong | 0.84 0.008 80 | #cdcac5 | hover borders, secondary button, inputs |
 | fg | 0.21 0.012 70 | #1c1712 | headings, body, primary button fill |
-| fg-muted | 0.45 0.006 70 | #585550 | ledes, secondary text, nav |
-| fg-subtle | 0.53 0.006 70 | #6e6b66 | captions, placeholders, footers |
+| fg-muted | 0.45 0.006 70 | #575552 | ledes, secondary text, nav |
+| fg-subtle | 0.53 0.006 70 | #6e6b68 | captions, placeholders, footers |
 | fg-faint | 0.70 0.005 75 | #a09e9a | decorative only: dividers, disabled icons. Never text. |
 
 ### Accent (instrument blue, hue 255) — one ramp, used sparingly
@@ -100,7 +100,7 @@ Canvas transparent over `bg`. Sphere body `bg-subtle` #f9f7f4 with a faint rim i
 | Foreground | Background | Ratio | Result |
 |---|---|---|---|
 | fg | bg / bg-subtle / bg-muted / bg-elevated | 17.5 / 16.6 / 15.6 / 17.7 | AAA |
-| fg-muted | bg / bg-subtle / bg-muted | 7.35 / 6.97 / 6.54 | AAA |
+| fg-muted | bg / bg-subtle / bg-muted | 7.34 / 6.97 / 6.54 | AAA |
 | fg-subtle | bg / bg-subtle / bg-muted | 5.21 / 4.95 / 4.64 | AA (any size) |
 | fg-faint | bg | 2.64 | decorative only, never text |
 | bg (white text) | fg (primary button) | 17.5 | AAA |
