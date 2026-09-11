@@ -1,0 +1,8 @@
+# Local-only artifacts. None of this belongs on the deployment.
+gauntlet/
+research/refs/
+.dev.log
+.prod.log
+.build.log
+.install.log
+scripts/gauntlet/
