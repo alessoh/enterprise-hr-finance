@@ -18,7 +18,17 @@ export function FootnoteRef({ n, scope, className, ...props }: FootnoteRefProps)
   const target = scope ? `fn-${scope}-${n}` : `fn-${n}`;
   const id = scope ? `fnref-${scope}-${n}` : `fnref-${n}`;
   return (
-    <sup id={id} className={cn("ml-0.5 align-super text-[0.6875rem] leading-none font-medium", className)} {...props}>
+    // `align-super` raises the marker by a full super offset, which on a wrapped
+    // multi-line label collides with the line above. A small explicit rise keeps it
+    // clear of the ascenders without leaving the line box.
+    <sup
+      id={id}
+      className={cn(
+        "ml-0.5 align-baseline text-[0.6875rem] leading-none font-medium relative -top-[0.4em]",
+        className,
+      )}
+      {...props}
+    >
       <a
         href={`#${target}`}
         aria-label={`Footnote ${n}`}

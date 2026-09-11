@@ -28,6 +28,12 @@ export const metadata: Metadata = createMetadata({
   keywords: [...platformOverview.seo.keywords],
 });
 
+/** First sentence of a description, so six cells stay the same shape. */
+function firstSentence(text: string): string {
+  const match = text.match(/^[\s\S]*?[.!?](?=\s|$)/);
+  return (match ? match[0] : text).trim();
+}
+
 export default function PlatformPage() {
   const pillars = PRODUCT_SLUGS.map((slug) => getPlatformPillar(slug)).filter(
     (p): p is NonNullable<typeof p> => Boolean(p),
@@ -75,7 +81,12 @@ export default function PlatformPage() {
             {parts.map((part) => (
               <div key={part.slug} className="border-t border-border pt-4">
                 <dt className="text-[0.9375rem] font-medium text-fg">{part.name}</dt>
-                <dd className="mt-1.5 text-sm leading-relaxed text-fg-muted">{part.eyebrow}</dd>
+                {/* A real sentence, not a three-word label: the eyebrow alone made six
+                    terms read as a bare list. Trimmed to the first sentence so the six
+                    cells stay even. */}
+                <dd className="mt-1.5 text-sm leading-relaxed text-pretty text-fg-muted">
+                  {firstSentence(part.description)}
+                </dd>
               </div>
             ))}
           </dl>

@@ -20,6 +20,7 @@ export const LogoMark = React.forwardRef<SVGSVGElement, LogoMarkProps>(function 
     <svg
       ref={ref}
       viewBox="0 0 24 24"
+      style={{ marginLeft: "-1.5px" }}
       aria-hidden
       focusable="false"
       className={cn("size-6 shrink-0 text-fg", className)}

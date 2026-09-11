@@ -14,10 +14,10 @@ export function UptimeBars({ days, label }: { days: number[]; label: string }) {
       aria-label={`${label}: 90-day uptime history`}
     >
       {days.map((value, index) => {
-        // Healthy days are neutral so the eye lands on the exceptions. Ninety saturated
-        // green bars per row would make "fine" the loudest thing on the page.
+        // Healthy days read as healthy, but quietly: a near-white bar says "disabled",
+        // and a saturated one makes "fine" the loudest thing on the page.
         const healthy = value >= 99.9;
-        const tone = healthy ? "fill-border-strong" : value >= 99 ? "fill-warning" : "fill-danger";
+        const tone = healthy ? "fill-success" : value >= 99 ? "fill-warning" : "fill-danger";
         return (
           <rect
             key={index}
@@ -27,7 +27,9 @@ export function UptimeBars({ days, label }: { days: number[]; label: string }) {
             height={height}
             rx={1}
             className={tone}
-            opacity={healthy ? 0.7 : 1}
+            // Healthy days are legible but muted, so ninety of them never outshout the
+            // two or three that are not.
+            opacity={healthy ? 0.32 : 1}
           />
         );
       })}
