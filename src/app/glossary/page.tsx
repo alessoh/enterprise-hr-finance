@@ -88,40 +88,45 @@ export default function GlossaryPage() {
 
       <Section spacing="none" className="pb-20 lg:pb-28" aria-label="Terms by letter">
         <Container>
-          {groups.map(([letter, terms], groupIndex) => (
-            <section
-              key={letter}
-              id={letterId(letter)}
-              aria-labelledby={`${letterId(letter)}-title`}
-              className={
-                groupIndex === 0
-                  ? "grid gap-4 scroll-mt-12 pt-10 lg:grid-cols-[7rem_minmax(0,1fr)] lg:gap-10 lg:pt-14"
-                  : "grid gap-4 scroll-mt-12 border-t border-border pt-10 lg:grid-cols-[7rem_minmax(0,1fr)] lg:gap-10 lg:pt-14"
-              }
-            >
-              <h2
-                id={`${letterId(letter)}-title`}
-                className="text-h2 tabular self-start text-fg lg:sticky lg:top-[9.5rem]"
+          <div className="max-w-[64rem]">
+            {groups.map(([letter, terms]) => (
+              <section
+                key={letter}
+                id={letterId(letter)}
+                aria-labelledby={`${letterId(letter)}-title`}
+                className="scroll-mt-32 pt-12 lg:pt-16"
               >
-                {letter}
-              </h2>
-              <dl className="mb-10 divide-y divide-border lg:mb-14">
-                {terms.map((term) => (
-                  <div key={term.slug} className="grid gap-1.5 py-5 first:pt-0 md:grid-cols-[17rem_minmax(0,1fr)] md:gap-8">
-                    <dt className="text-base font-medium leading-snug">
-                      <Link
-                        href={glossaryPath(term.slug)}
-                        className="rounded-sm text-fg transition-colors duration-150 ease-standard hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-ring"
-                      >
-                        {term.term}
-                      </Link>
-                    </dt>
-                    <dd className="text-[0.9375rem] leading-relaxed text-fg-muted">{term.shortDefinition}</dd>
-                  </div>
-                ))}
-              </dl>
-            </section>
-          ))}
+                <div className="flex items-baseline justify-between gap-6 border-b border-border-strong pb-3">
+                  <h2 id={`${letterId(letter)}-title`} className="text-h3 text-fg">
+                    {letter}
+                  </h2>
+                  <p className="eyebrow tabular text-fg-subtle">
+                    {terms.length} {terms.length === 1 ? "term" : "terms"}
+                  </p>
+                </div>
+                <dl className="divide-y divide-border">
+                  {terms.map((term) => (
+                    <div
+                      key={term.slug}
+                      className="grid gap-1.5 py-6 md:grid-cols-[minmax(0,17rem)_minmax(0,1fr)] md:gap-8 lg:grid-cols-[minmax(0,26rem)_minmax(0,1fr)] lg:gap-12"
+                    >
+                      <dt className="text-h5 font-semibold">
+                        <Link
+                          href={glossaryPath(term.slug)}
+                          className="rounded-sm text-fg transition-colors duration-150 ease-standard hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-ring"
+                        >
+                          {term.term}
+                        </Link>
+                      </dt>
+                      <dd className="max-w-[31em] text-[0.9375rem] leading-[1.65] text-fg-muted">
+                        {term.shortDefinition}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </section>
+            ))}
+          </div>
         </Container>
       </Section>
 

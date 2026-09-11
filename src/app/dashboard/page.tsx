@@ -42,7 +42,7 @@ export default function DashboardPage() {
           <div className="flex flex-col gap-3 py-8 sm:flex-row sm:items-end sm:justify-between lg:py-10">
             <div>
               <Eyebrow dot="live">Live demo</Eyebrow>
-              <h1 className="text-h2 mt-3">{TITLE}</h1>
+              <h1 className="text-h1 mt-3">{TITLE}</h1>
               <p className="text-body mt-3 max-w-[62ch] text-fg-muted">
                 A simulated Meridian workspace, streamed over Server-Sent Events. Every row is an
                 action an agent took, what it cost in credits, and whether a person still has to

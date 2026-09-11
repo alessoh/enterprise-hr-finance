@@ -163,7 +163,7 @@ export default async function AgentPage({ params }: { params: Params }) {
                 floor gap keeps the two blocks at the panel's top and bottom edges
                 whatever the row height, so no slack collects under the divider. */}
             <aside
-              className="flex flex-col justify-between gap-8 rounded-xl bg-bg-muted p-7 lg:col-span-5 lg:p-8"
+              className="flex flex-col justify-between gap-8 rounded-xl bg-bg-subtle p-7 ring-1 ring-border lg:col-span-5 lg:p-8"
               aria-label="Headline outcome"
             >
               <div>
@@ -176,7 +176,7 @@ export default async function AgentPage({ params }: { params: Params }) {
                   footnote={agent.headlineMetric.footnote ? 1 : undefined}
                 />
               </div>
-              <div className="border-t border-border-strong pt-6">
+              <div className="border-t border-border pt-6">
                 <p className="eyebrow">The job</p>
                 <p className="mt-3 text-[0.9375rem] leading-relaxed text-fg text-pretty">{agent.jobToBeDone}</p>
               </div>

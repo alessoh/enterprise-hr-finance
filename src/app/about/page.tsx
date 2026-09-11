@@ -146,25 +146,27 @@ export default function AboutPage() {
       <Section spacing="none" className="pt-8 pb-16 lg:pt-10 lg:pb-24" aria-labelledby="about-title">
         <Container>
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "About" }]} />
-          <div className="mt-12 grid gap-10 lg:mt-16 lg:grid-cols-12 lg:gap-x-16">
+          {/* The lede and the facts share row 2, so the table starts on the paragraph's
+              first line at every width; -mt-2 drops its first label onto that baseline. */}
+          <div className="mt-12 grid gap-6 lg:mt-16 lg:grid-cols-12 lg:gap-x-16">
             <div className="lg:col-span-7">
               <Eyebrow>Company</Eyebrow>
               <h1 id="about-title" className="text-h1 mt-5 text-balance">
                 {TITLE}.
               </h1>
-              <p className="text-lede mt-6 max-w-[54ch] text-pretty">
-                Meridian Systems, Inc. builds narrow, governed AI agents for HR and finance operations. Each
-                agent does one job, runs on your data under your security model, logs every action, and stops
-                at a person for anything consequential.
-              </p>
             </div>
-            {/* Rows share a fixed height: "New York, London, Dublin" wraps to two lines
-                and was pushing its cell out of line with its neighbour. */}
-            <dl className="grid grid-cols-2 gap-x-8 gap-y-6 self-end lg:col-span-4 lg:col-start-9">
+            <p className="text-lede max-w-[54ch] text-pretty lg:col-span-7 lg:col-start-1 lg:row-start-2">
+              Meridian Systems, Inc. builds narrow, governed AI agents for HR and finance operations. Each
+              agent does one job, runs on your data under your security model, logs every action, and stops at
+              a person for anything consequential.
+            </p>
+            {/* The metadata table from the customer-story page: hairlines top and bottom,
+                a rule between rows, terms in the subtle column. */}
+            <dl className="mt-4 divide-y divide-border border-y border-border lg:col-span-4 lg:col-start-9 lg:row-start-2 lg:-mt-2">
               {facts.map((fact) => (
-                <div key={fact.label} className="flex min-h-[4.25rem] flex-col">
-                  <dt className="eyebrow">{fact.label}</dt>
-                  <dd className="mt-2 text-sm text-balance text-fg">{fact.value}</dd>
+                <div key={fact.label} className="grid grid-cols-[5.5rem_minmax(0,1fr)] gap-4 py-3.5">
+                  <dt className="text-[0.8125rem] text-fg-subtle">{fact.label}</dt>
+                  <dd className="tabular text-sm text-fg">{fact.value}</dd>
                 </div>
               ))}
             </dl>

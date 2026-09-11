@@ -59,16 +59,21 @@ export function StatusBoard({ initial }: { initial: LiveStatusPayload }) {
       <ul className="divide-y divide-border">
         {payload.components.map((component) => (
           <li key={component.name} className="grid gap-2 px-4 py-3 sm:grid-cols-[1fr_2fr_auto] sm:items-center sm:gap-4">
+            {/* No per-row badge while everything is operational: the header states it once
+                and the bars carry the detail. A row only earns a label when it is an
+                exception, which is the only time colour should appear here. */}
             <div className="flex items-center gap-2">
               <span className="text-[13px] font-medium text-fg">{component.name}</span>
-              <span
-                className={cn(
-                  "rounded-sm px-1.5 py-0.5 text-[11px] font-medium leading-4",
-                  TONE[component.status],
-                )}
-              >
-                {LABEL[component.status]}
-              </span>
+              {component.status === "operational" ? null : (
+                <span
+                  className={cn(
+                    "rounded-sm px-1.5 py-0.5 text-[11px] font-medium leading-4",
+                    TONE[component.status],
+                  )}
+                >
+                  {LABEL[component.status]}
+                </span>
+              )}
             </div>
             <UptimeBars days={component.days} label={component.name} />
             <span className="tabular text-right text-[12px] text-fg-muted">

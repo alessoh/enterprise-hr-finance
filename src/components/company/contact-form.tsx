@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Field } from "@/components/ui/label";
 import { NativeSelect } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
 
 import {
   companySizes,
@@ -154,20 +155,28 @@ export function ContactForm({ intent, initialMessage = "", contactEmail, classNa
   const submitting = status === "submitting";
 
   return (
-    <Card as="section" padding="lg" className={className} aria-labelledby={`${id}-title`}>
-      <h2 id={`${id}-title`} className="text-h5 text-fg">
-        Tell us about your team
-      </h2>
-      <p className="mt-1.5 text-sm text-fg-muted">All fields except the message are required.</p>
+    <Card
+      as="section"
+      padding="none"
+      className={cn("overflow-hidden", className)}
+      aria-labelledby={`${id}-title`}
+    >
+      {/* Head and body: a tinted band with a hairline under it, the same treatment the
+          story tiles use, so the card is not one undifferentiated block of padding. */}
+      <div className="border-b border-border bg-bg-subtle px-8 py-6 lg:px-10">
+        <h2 id={`${id}-title`} className="text-h5 text-fg">
+          Tell us about your team
+        </h2>
+        <p className="mt-1.5 text-sm text-fg-muted">All fields except the message are required.</p>
+      </div>
 
-      <form onSubmit={onSubmit} noValidate className="mt-7 flex flex-col gap-5">
+      <form onSubmit={onSubmit} noValidate className="flex flex-col gap-5 px-8 py-8 lg:px-10 lg:py-10">
         <div className="grid gap-5 sm:grid-cols-2">
           <Field label="Full name" htmlFor={fieldId("name")} error={errors.name}>
             <Input
               id={fieldId("name")}
               name="name"
               autoComplete="name"
-              placeholder="Dana Okafor"
               value={values.name}
               onChange={(e) => update("name", e.target.value)}
               disabled={submitting}
@@ -180,7 +189,7 @@ export function ContactForm({ intent, initialMessage = "", contactEmail, classNa
               type="email"
               inputMode="email"
               autoComplete="email"
-              placeholder="dana@company.com"
+              placeholder="name@company.com"
               value={values.email}
               onChange={(e) => update("email", e.target.value)}
               disabled={submitting}
@@ -194,7 +203,6 @@ export function ContactForm({ intent, initialMessage = "", contactEmail, classNa
               id={fieldId("company")}
               name="company"
               autoComplete="organization"
-              placeholder="Halvorsen Health"
               value={values.company}
               onChange={(e) => update("company", e.target.value)}
               disabled={submitting}

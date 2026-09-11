@@ -14,7 +14,7 @@ export function HeroCheckpoint() {
     events[0];
 
   return (
-    <figure className="w-[19.5rem] rounded-xl bg-bg-elevated p-4 shadow-lg ring-1 ring-border sm:w-[21rem]">
+    <figure className="w-full rounded-xl bg-bg-elevated p-4 shadow-lg ring-1 ring-border">
       <figcaption className="flex items-center justify-between gap-3">
         <span className="text-[11px] font-medium uppercase tracking-[0.08em] text-fg-subtle">
           At the Gateway

@@ -197,3 +197,22 @@ Meridian, never "Meridian AI". Legal: Meridian Systems, Inc. Voice: precise, con
 A trailing arrow marks a move to another page to look at something ("See it live", "Read the story"). It never appears
 on the primary conversion button ("Book a demo", "Start free"): that button is the end of the journey, not a step in it.
 So in a primary/secondary pair the arrow belongs to the secondary. Never put an arrow on both.
+
+## 12. Rules earned in the blind gauntlet
+
+These were all learned by losing a comparison. Do not undo them without a better reason than the one that produced them.
+
+- **A number is one thing.** A stat is a numeral with its unit set tight at the numeral's own weight. Never shrink the
+  unit to 60% and recolour it, and never hang the footnote marker off the figure: the marker rides the label.
+- **Colour only where it means something.** Blue is for what is live or clickable. Amber means a human still has to
+  decide, and nothing else. A status row that is healthy gets no badge and no saturated fill; the exceptions get both.
+- **Three encodings of one fact is two too many.** A badge, a green bar and a percentage all saying "operational" makes
+  "fine" the loudest thing on the page.
+- **Wordmarks are type, so a half-faded one reads as a misspelling.** Use a static variant wherever a mark could be cut.
+  One cap-height and one weight across a set; tell them apart by case, tracking and a glyph.
+- **An abstract hero visual has to earn its half of the fold.** If it cannot be read as a diagram, pair it with a real
+  product artefact and give the two a deliberate relationship. "Decorative geometry" is the most common fatal note.
+- **A fold needs a floor.** A hero that ends in white space floats; close the band with a partner row or a rule.
+- **Placeholder-shaped copy is worse than no copy.** A row that describes what a section contains, rather than what it
+  says, reads as unreplaced boilerplate.
+- **Never let a page repeat a hero.** A detail page that reuses the overview's hero has no design of its own.

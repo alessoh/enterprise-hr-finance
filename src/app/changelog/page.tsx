@@ -43,6 +43,21 @@ function monthLabel(key: string): string {
   });
 }
 
+/**
+ * CSS-only selected state for the month rail. `:has()` paints the anchor whose
+ * month section is targeted; with nothing targeted the newest month is current.
+ * No client JS, and without `:has()` support hover and focus still read.
+ */
+function activeMonthCss(months: readonly string[]): string {
+  const [newest] = months;
+  if (!newest) return "";
+  const selectors = months
+    .map((key) => `html:has([id="${key}"]:target) [data-month="${key}"]`)
+    .concat(`html:not(:has(:target)) [data-month="${newest}"]`)
+    .join(",");
+  return `${selectors}{background-color:var(--color-bg-muted);color:var(--color-fg);box-shadow:inset 2px 0 0 var(--color-fg);}`;
+}
+
 export default function ChangelogPage() {
   const months = Array.from(new Set(changelog.map((entry) => monthKey(entry.date))));
 
@@ -85,16 +100,18 @@ export default function ChangelogPage() {
 
       <Section>
         <Container>
-          <div className="grid gap-10 xl:grid-cols-[10rem_1fr] xl:gap-16">
-            <nav aria-label="Jump to month" className="hidden xl:block">
+          <style dangerouslySetInnerHTML={{ __html: activeMonthCss(months) }} />
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,10rem)_minmax(0,1fr)] lg:gap-x-10 xl:grid-cols-[minmax(0,11rem)_minmax(0,1fr)]">
+            <nav aria-label="Jump to month" className="hidden lg:block">
               <div className="sticky top-24">
-                <p className="eyebrow mb-3">Months</p>
-                <ul className="space-y-1.5">
+                <p className="eyebrow border-b border-border pb-3">Months</p>
+                <ul className="mt-3">
                   {months.map((key) => (
                     <li key={key}>
                       <a
                         href={`#${key}`}
-                        className="text-[13px] text-fg-muted transition-colors duration-150 hover:text-fg"
+                        data-month={key}
+                        className="block rounded-r-md py-1.5 pr-2 pl-2.5 text-[13px] font-medium text-fg-muted transition-colors duration-150 ease-standard hover:bg-bg-muted hover:text-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-ring"
                       >
                         {monthLabel(key)}
                       </a>
@@ -104,16 +121,22 @@ export default function ChangelogPage() {
               </div>
             </nav>
 
-            <div className="min-w-0">
+            <div className="min-w-0 lg:border-l lg:border-border lg:pl-10 xl:pl-12">
               {months.map((key) => (
                 <section key={key} id={key} className="scroll-mt-24 not-first:mt-16">
-                  <h2 className="eyebrow border-b border-border pb-3">{monthLabel(key)}</h2>
+                  <h2 className="eyebrow max-w-[38rem] border-b border-border pb-3 xl:max-w-[47.5rem]">
+                    {monthLabel(key)}
+                  </h2>
                   <ol className="mt-8 space-y-12">
                     {changelog
                       .filter((entry) => monthKey(entry.date) === key)
                       .map((entry) => (
-                        <li key={entry.id} id={entry.id} className="scroll-mt-24">
-                          <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+                        <li
+                          key={entry.id}
+                          id={entry.id}
+                          className="scroll-mt-24 xl:grid xl:grid-cols-[7.5rem_minmax(0,1fr)] xl:gap-x-8"
+                        >
+                          <div className="flex flex-wrap items-center gap-x-3 gap-y-2 xl:flex-col xl:items-start xl:gap-y-2.5 xl:pt-1">
                             <time dateTime={entry.date} className="tabular text-[13px] text-fg-subtle">
                               {formatDate(entry.date, "medium")}
                             </time>
@@ -122,35 +145,37 @@ export default function ChangelogPage() {
                             </Badge>
                             {entry.isNew ? <Badge variant="success">New</Badge> : null}
                           </div>
-                          <h3 className="text-h4 mt-3 max-w-[52ch] text-balance">
-                            <a href={`#${entry.id}`} className="hover:text-accent">
-                              {entry.title}
-                            </a>
-                          </h3>
-                          <p className="mt-3 max-w-[68ch] text-[15px] leading-6 text-fg-muted">
-                            {entry.summary}
-                          </p>
-                          <Markdown variant="compact" className="mt-4 max-w-[68ch]">
-                            {entry.body}
-                          </Markdown>
-                          {entry.agentSlugs && entry.agentSlugs.length > 0 ? (
-                            <ul className="mt-4 flex flex-wrap gap-2">
-                              {entry.agentSlugs.map((slug) => {
-                                const agent = getAgent(slug);
-                                if (!agent) return null;
-                                return (
-                                  <li key={slug}>
-                                    <Link
-                                      href={`/agents/${slug}`}
-                                      className="inline-block rounded-full border border-border px-2.5 py-0.5 text-[12px] text-fg-muted transition-colors duration-150 hover:border-border-strong hover:text-fg"
-                                    >
-                                      {agent.shortName}
-                                    </Link>
-                                  </li>
-                                );
-                              })}
-                            </ul>
-                          ) : null}
+                          <div className="min-w-0">
+                            <h3 className="text-h4 mt-3 max-w-[32rem] text-balance xl:mt-0">
+                              <a href={`#${entry.id}`} className="hover:text-accent">
+                                {entry.title}
+                              </a>
+                            </h3>
+                            <p className="mt-3 max-w-[38rem] text-base leading-[1.6] text-fg-muted">
+                              {entry.summary}
+                            </p>
+                            <Markdown variant="compact" className="mt-4 max-w-[38rem]">
+                              {entry.body}
+                            </Markdown>
+                            {entry.agentSlugs && entry.agentSlugs.length > 0 ? (
+                              <ul className="mt-5 flex flex-wrap gap-2">
+                                {entry.agentSlugs.map((slug) => {
+                                  const agent = getAgent(slug);
+                                  if (!agent) return null;
+                                  return (
+                                    <li key={slug}>
+                                      <Link
+                                        href={`/agents/${slug}`}
+                                        className="inline-block rounded-full border border-border px-2.5 py-0.5 text-[12px] text-fg-muted transition-colors duration-150 hover:border-border-strong hover:text-fg"
+                                      >
+                                        {agent.shortName}
+                                      </Link>
+                                    </li>
+                                  );
+                                })}
+                              </ul>
+                            ) : null}
+                          </div>
                         </li>
                       ))}
                   </ol>

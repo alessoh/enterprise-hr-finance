@@ -14,7 +14,10 @@ export function UptimeBars({ days, label }: { days: number[]; label: string }) {
       aria-label={`${label}: 90-day uptime history`}
     >
       {days.map((value, index) => {
-        const tone = value >= 99.9 ? "fill-success" : value >= 99 ? "fill-warning" : "fill-danger";
+        // Healthy days are neutral so the eye lands on the exceptions. Ninety saturated
+        // green bars per row would make "fine" the loudest thing on the page.
+        const healthy = value >= 99.9;
+        const tone = healthy ? "fill-border-strong" : value >= 99 ? "fill-warning" : "fill-danger";
         return (
           <rect
             key={index}
@@ -24,7 +27,7 @@ export function UptimeBars({ days, label }: { days: number[]; label: string }) {
             height={height}
             rx={1}
             className={tone}
-            opacity={value >= 99.9 ? 0.55 : 1}
+            opacity={healthy ? 0.7 : 1}
           />
         );
       })}

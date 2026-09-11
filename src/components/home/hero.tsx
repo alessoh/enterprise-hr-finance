@@ -19,7 +19,7 @@ export function Hero() {
   return (
     <section
       aria-labelledby="hero-heading"
-      className="relative isolate overflow-hidden pt-16 pb-20 lg:pt-24 lg:pb-28"
+      className="relative isolate overflow-hidden pt-14 pb-14 lg:pt-20 lg:pb-16"
     >
       <Container>
         <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,11fr)_minmax(0,9fr)] lg:gap-16">
@@ -54,17 +54,18 @@ export function Hero() {
               </ul>
             </Reveal>
           </div>
-          {/* The globe is the atmosphere; the checkpoint card is the claim. An agent
-              acted, and a person still decides. */}
-          <div className="relative mx-auto w-full max-w-[360px] lg:max-w-[640px]">
-            <HeroMeridian />
-            <div className="mt-6 flex justify-center lg:absolute lg:bottom-2 lg:-left-6 lg:mt-0 lg:justify-start">
+          {/* Read top to bottom: work turns past the governed line, and lands here for a
+              person to decide. The card is centred on the line rather than cropping the
+              globe at an arbitrary point. */}
+          <div className="mx-auto flex w-full max-w-[340px] flex-col items-center lg:max-w-[460px]">
+            <HeroMeridian className="w-full" />
+            <div className="-mt-10 w-full max-w-[21rem] lg:-mt-14">
               <HeroCheckpoint />
             </div>
           </div>
         </div>
       </Container>
-      <Container className="mt-16 lg:mt-20">
+      <Container className="mt-10 lg:mt-12">
         <div className="border-t border-border pt-8">
           <LogoWall
             variant="row"

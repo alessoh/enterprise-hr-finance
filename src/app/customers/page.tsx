@@ -11,7 +11,8 @@ import { ArrowLink } from "@/components/ui/arrow-link";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import { Container } from "@/components/ui/container";
 import { Eyebrow } from "@/components/ui/eyebrow";
-import { Footnotes } from "@/components/ui/footnote";
+import { FootnoteRef, Footnotes } from "@/components/ui/footnote";
+import { LogoWall } from "@/components/ui/logo-wall";
 import { Reveal } from "@/components/ui/reveal";
 import { Section, SectionHeader } from "@/components/ui/section";
 import { caseStudies, customers, getCaseStudy, getCustomer } from "@/content/customers";
@@ -47,12 +48,27 @@ const QUOTE_COMPANIES = [
   "Atlas Manufacturing",
 ];
 
-/** What every published story contains, in the order the story tells it. */
-const STORY_CONTENTS = [
-  { term: "Challenge", description: "The starting point, with the numbers behind it." },
-  { term: "Approach", description: "What was deployed, phase by phase, and who approved what." },
-  { term: "Results", description: "What the partner measured, and the agents it runs today." },
-] as const;
+/**
+ * The lead story in three lines, keyed by slug so the rail always describes the tile
+ * beside it. Figures are the ones the story reports; no story here, no rail.
+ */
+const LEAD_SUMMARY: Record<string, Array<{ term: string; detail: string }>> = {
+  "halvorsen-health": [
+    { term: "Challenge", detail: "3,100 HR cases a month, a 5.2-day median, 22 off-cycle payroll runs." },
+    { term: "Approach", detail: "Read-only connectors, a pilot at one hospital, two shadow cycles." },
+    { term: "Results", detail: "71% resolved without a human, 3.6-day escalations, 14 off-cycle runs." },
+  ],
+  "castellan-financial": [
+    { term: "Challenge", detail: "A 10-day close across 9 entities, 460 audit requests, 7,000 invoices." },
+    { term: "Approach", detail: "Read-only connections, an audit dry run, six control tests, 214 tasks." },
+    { term: "Results", detail: "Close at 7 days, $283K in duplicate payments, ~900 audit hours saved." },
+  ],
+  "northwind-logistics": [
+    { term: "Challenge", detail: "Call-outs at 6-9% in peak, 2 hours per open shift, 9 days to interview." },
+    { term: "Approach", detail: "Labor rules and 12 agreements encoded, then ranked SMS offer waves." },
+    { term: "Results", detail: "Shifts filled in 11 minutes, screening down 44%, 2 days to interview." },
+  ],
+};
 
 /** Counted from the content, not asserted: the scope of the programme, no outcome claims. */
 const SCOPE = [
@@ -67,6 +83,7 @@ export default function CustomersPage() {
     return customer ? [{ study, customer }] : [];
   });
   const [lead, ...others] = featured;
+  const leadSummary = lead ? (LEAD_SUMMARY[lead.study.slug] ?? []) : [];
 
   const gridItems = customers.map((customer) => ({
     slug: customer.slug,
@@ -125,16 +142,24 @@ export default function CustomersPage() {
               <ArrowLink href="#partners" className="mt-7">
                 See all eight partners
               </ArrowLink>
-              {/* What a story contains, so the tiles beside this column read as an index
-                  rather than three loose cards. */}
-              <dl className="mt-12 hidden divide-y divide-border border-t border-border lg:block">
-                {STORY_CONTENTS.map((item) => (
-                  <div key={item.term} className="grid grid-cols-[7rem_minmax(0,1fr)] gap-4 py-3">
-                    <dt className="text-[0.8125rem] font-medium text-fg">{item.term}</dt>
-                    <dd className="text-[0.8125rem] leading-5 text-fg-muted">{item.description}</dd>
-                  </div>
-                ))}
-              </dl>
+              {/* The lead story's own numbers, set in the metadata table used on the story
+                  page, so this column carries the story rather than a description of it. */}
+              {leadSummary.length > 0 && lead ? (
+                <div className="mt-12 hidden lg:block">
+                  <p className="eyebrow">In the {lead.customer.name} story</p>
+                  <dl className="mt-5 divide-y divide-border border-y border-border">
+                    {leadSummary.map((item) => (
+                      <div key={item.term} className="grid grid-cols-[5.5rem_minmax(0,1fr)] gap-4 py-3.5">
+                        <dt className="text-[0.8125rem] text-fg-subtle">{item.term}</dt>
+                        <dd className="text-sm leading-6 text-pretty text-fg">
+                          {item.detail}
+                          {item.term === "Results" ? <FootnoteRef n={1} /> : null}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              ) : null}
               <dl className="mt-10 grid grid-cols-3 gap-x-6 border-t border-border pt-6 lg:mt-auto lg:pt-7">
                 {SCOPE.map((item, index) => (
                   <div key={item.label} className={index > 0 ? "border-l border-border pl-6" : undefined}>
@@ -165,7 +190,17 @@ export default function CustomersPage() {
         </Container>
       </Section>
 
-      {/* 2. All partners */}
+      {/* 2. The partner wall. The eight wordmarks are the only marks this page has, so
+          they sit between the stories and the grid that details them, never in the fold. */}
+      <Section spacing="compact" bordered="top" aria-label="Design partners">
+        <Container>
+          {/* Centred label over a centred 4x2 grid: the band is symmetric, so a left rail
+              label would sit 50px off the first wordmark. */}
+          <LogoWall variant="grid" labelAlign="center" label="The eight design partners" />
+        </Container>
+      </Section>
+
+      {/* 3. All partners */}
       <Section id="partners" background="subtle" bordered="both" className="scroll-mt-20" aria-labelledby="partners-title">
         <Container>
           <SectionHeader
@@ -178,7 +213,7 @@ export default function CustomersPage() {
         </Container>
       </Section>
 
-      {/* 3. Testimonials */}
+      {/* 4. Testimonials */}
       <Section aria-labelledby="quotes-title">
         <Container>
           <SectionHeader
@@ -190,7 +225,7 @@ export default function CustomersPage() {
         </Container>
       </Section>
 
-      {/* 4. CTA */}
+      {/* 5. CTA */}
       <CtaBand
         title="See these agents on your data"
         lede="Book a demo and we will map agents to the workflows that pay back first, or compare plans and credits on the pricing page."
