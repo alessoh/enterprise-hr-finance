@@ -12,7 +12,7 @@ export const platformOverview = {
   seo: {
     title: "Platform: Registry, Gateway, Data Fabric, Studio, Assist",
     description:
-      "The governed layer under every Meridian agent: a Registry that is the system of record, a Gateway built on MCP and OpenTelemetry, zero-copy Data Fabric, Studio, and Assist.",
+      "The governed layer under every Meridian agent: a Registry that is the system of record, a Gateway built on MCP, zero-copy Data Fabric, Studio, and Assist.",
     keywords: [
       "AI agent platform",
       "agent system of record",

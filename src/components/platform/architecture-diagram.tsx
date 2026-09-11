@@ -21,25 +21,21 @@ interface NodeProps {
   title: string;
   sub?: string;
   rows?: string[];
-  accent?: boolean;
+  /**
+   * Marks the one node the diagram is about. Every node keeps the same hairline
+   * border; emphasis is a 3px ink rule on the leading edge, the same device the
+   * site uses elsewhere (`border-t border-fg` headers, the active ink chip).
+   * Exactly one node per diagram may carry it.
+   */
+  emphasis?: boolean;
 }
 
-function Node({ x, y, w, h, title, sub, rows, accent }: NodeProps) {
+function Node({ x, y, w, h, title, sub, rows, emphasis }: NodeProps) {
   const px = 18;
   return (
     <g>
-      <rect
-        x={x}
-        y={y}
-        width={w}
-        height={h}
-        rx={10}
-        vectorEffect="non-scaling-stroke"
-        className={cn(BOX, accent && "stroke-accent")}
-      />
-      {accent ? (
-        <rect x={x} y={y} width={3} height={h} rx={1.5} className="fill-accent" />
-      ) : null}
+      <rect x={x} y={y} width={w} height={h} rx={10} vectorEffect="non-scaling-stroke" className={BOX} />
+      {emphasis ? <rect x={x} y={y + 10} width={3} height={h - 20} rx={1.5} className="fill-fg" /> : null}
       <text x={x + px} y={y + 28} className={TITLE}>
         {title}
       </text>
@@ -94,11 +90,16 @@ function Ext({ x, y, w, title, sub }: { x: number; y: number; w: number; title: 
   );
 }
 
-function Legend({ x, y, w, id }: { x: number; y: number; w: number; id: string }) {
+/**
+ * The boundary label is seated into the dashed rule rather than floated on it:
+ * an unbordered `bg` gap breaks the dash, and the centred label keeps equal
+ * padding on both sides. `cy` is the y of the boundary line it sits in.
+ */
+function Legend({ x, cy, w, id }: { x: number; cy: number; w: number; id: string }) {
   return (
     <g>
-      <rect x={x} y={y} width={w} height={22} rx={11} vectorEffect="non-scaling-stroke" className="fill-bg stroke-border-strong" />
-      <text id={id} x={x + w / 2} y={y + 15} textAnchor="middle" className="fill-fg text-[12px] font-medium tracking-[0.04em]">
+      <rect x={x} y={cy - 10} width={w} height={20} className="fill-bg" />
+      <text id={id} x={x + w / 2} y={cy + 4} textAnchor="middle" className="fill-fg text-[12px] font-medium tracking-[0.04em]">
         Trust boundary
       </text>
     </g>
@@ -134,7 +135,7 @@ function LandscapeDiagram({ className }: { className?: string }) {
 
       {/* Trust boundary */}
       <rect x={24} y={24} width={636} height={492} rx={16} strokeDasharray="6 6" vectorEffect="non-scaling-stroke" className={HAIR} />
-      <Legend x={40} y={13} w={112} id="arch-lg-legend" />
+      <Legend x={40} cy={24} w={112} id="arch-lg-legend" />
       <text x={44} y={500} className={LABEL}>
         Approval holds · immutable audit trail · role-based access · SOC 2 Type II · ISO 27001 · EU/US residency
       </text>
@@ -161,7 +162,7 @@ function LandscapeDiagram({ className }: { className?: string }) {
         title="Registry"
         sub="System of record for every agent"
         rows={["Owner · role · permissions · data · status", "Meridian, partner, and Studio-built agents"]}
-        accent
+        emphasis
       />
 
       {/* Studio -> Registry */}
@@ -227,7 +228,7 @@ function StackedDiagram({ className }: { className?: string }) {
       <ArrowDefs id="arch-arrow-sm" />
 
       <rect x={6} y={12} width={332} height={556} rx={14} strokeDasharray="6 6" vectorEffect="non-scaling-stroke" className={HAIR} />
-      <Legend x={20} y={1} w={112} id="arch-sm-legend" />
+      <Legend x={20} cy={12} w={112} id="arch-sm-legend" />
 
       <text x={172} y={44} textAnchor="middle" className={LABEL}>
         Employees · managers · finance teams
@@ -245,7 +246,7 @@ function StackedDiagram({ className }: { className?: string }) {
         title="Registry"
         sub="System of record for every agent"
         rows={["Owner · role · permissions · data · status"]}
-        accent
+        emphasis
       />
 
       <path d="M172 244 V256 H94 V266" vectorEffect="non-scaling-stroke" className={HAIR} />

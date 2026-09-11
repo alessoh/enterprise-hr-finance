@@ -27,7 +27,6 @@ import { homeCopy } from "@/content/home";
 import { overagePerCredit, plans } from "@/content/pricing";
 import { getTestimonialsForAgent } from "@/content/testimonials";
 import type { Agent, AgentCategory, Metric } from "@/content/types";
-import { keyFacts } from "@/lib/seo/facts";
 import { breadcrumbJsonLd, faqJsonLd, howToJsonLd, productJsonLd, webPageJsonLd } from "@/lib/seo/jsonld";
 import { createMetadata } from "@/lib/seo/metadata";
 import { agentPath, customerPath, glossaryPath } from "@/lib/seo/routes";
@@ -99,12 +98,6 @@ export default async function AgentPage({ params }: { params: Params }) {
   const testimonial = getTestimonialsForAgent(agent.slug)[0];
   const customers = getCustomersForAgent(agent.slug);
   const terms = getGlossaryTermsForAgent(agent.slug).slice(0, 6);
-  const fact = keyFacts.find((item) => item.path === path);
-  const support = fact
-    ? fact.modeled
-      ? `${fact.fact.replace(/\.$/, "")} (modeled outcome).`
-      : fact.fact
-    : agent.description;
 
   const headline = statValue(agent.headlineMetric);
   const outcomes = [agent.headlineMetric, ...agent.supportingMetrics];
@@ -156,7 +149,6 @@ export default async function AgentPage({ params }: { params: Params }) {
                 {agent.name}
               </h1>
               <p className="text-lede mt-6 max-w-[60ch] text-pretty">{definitionalLede(agent)}</p>
-              <p className="mt-4 max-w-[62ch] text-base leading-relaxed text-fg-muted text-pretty">{support}</p>
               <div className="mt-8 flex flex-wrap items-center gap-3">
                 <Button asChild size="lg" arrow>
                   <Link href={homeCopy.hero.primaryCta.href}>{homeCopy.hero.primaryCta.label}</Link>

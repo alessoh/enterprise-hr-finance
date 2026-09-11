@@ -14,7 +14,7 @@ import { createMetadata } from "@/lib/seo/metadata";
 
 const TITLE = "Security and trust: governed by design";
 const DESCRIPTION =
-  "Human-in-the-loop approvals, an immutable audit trail, SOC 2 Type II, ISO 27001, GDPR, HIPAA-ready deployment, EU and US data residency, and no training on customer data.";
+  "Human-in-the-loop approvals, an immutable audit trail, SOC 2 Type II, ISO 27001, GDPR, EU and US data residency, and no training on customer data.";
 const PATH = "/security";
 const UPDATED = "2026-09-11";
 

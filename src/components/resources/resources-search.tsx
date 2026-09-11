@@ -1,7 +1,6 @@
 import { Search } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
 export interface ResourcesSearchProps {
@@ -11,19 +10,20 @@ export interface ResourcesSearchProps {
   className?: string;
 }
 
-/** Server-rendered GET form. Submits to /resources?q= (the WebSite SearchAction target). */
+/**
+ * Server-rendered GET form. Submits to /resources?q= (the WebSite SearchAction
+ * target). One control: a single hairline field carrying the icon, the input,
+ * and an inset submit, with the focus ring drawn around the whole thing.
+ */
 export function ResourcesSearch({ query, category, className }: ResourcesSearchProps) {
   return (
-    <form role="search" method="get" action="/resources" className={cn("flex w-full max-w-xl gap-2", className)}>
+    <form role="search" method="get" action="/resources" className={cn("w-full max-w-xl", className)}>
       <label htmlFor="resources-q" className="sr-only">
         Search guides
       </label>
-      <div className="relative min-w-0 flex-1">
-        <Search
-          aria-hidden
-          className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-fg-subtle"
-        />
-        <Input
+      <div className="flex h-10 w-full items-center rounded-md border border-border-strong bg-bg-elevated shadow-xs transition-[border-color,box-shadow] duration-150 ease-standard focus-within:border-accent focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-accent-ring">
+        <Search aria-hidden className="ml-3 size-4 shrink-0 text-fg-subtle" />
+        <input
           id="resources-q"
           type="search"
           name="q"
@@ -31,13 +31,17 @@ export function ResourcesSearch({ query, category, className }: ResourcesSearchP
           placeholder="Search guides: approval tiers, close, MCP"
           autoComplete="off"
           maxLength={80}
-          className="pl-9"
+          className="h-full min-w-0 flex-1 bg-transparent px-2.5 text-sm text-fg outline-none placeholder:text-fg-subtle [&::-webkit-search-cancel-button]:appearance-none"
         />
+        {category ? <input type="hidden" name="category" value={category} /> : null}
+        <Button
+          type="submit"
+          size="sm"
+          className="mr-1 rounded-sm focus-visible:bg-fg/88 focus-visible:outline-none"
+        >
+          Search
+        </Button>
       </div>
-      {category ? <input type="hidden" name="category" value={category} /> : null}
-      <Button type="submit" variant="secondary" className="shrink-0">
-        Search
-      </Button>
     </form>
   );
 }
