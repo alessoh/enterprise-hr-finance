@@ -34,7 +34,7 @@ function Figure({ metric, className }: { metric: Metric; className?: string }) {
 export interface StoryTileProps {
   study: CaseStudy;
   customer: Customer;
-  /** `lead` sets the headline figure larger and adds the deployment summary. */
+  /** `lead` sets the title larger, shows all three results, and adds the summary. */
   size?: "lead" | "compact";
   /** Heading level for the title, so the page's outline never skips a level. */
   as?: "h2" | "h3";
@@ -43,8 +43,8 @@ export interface StoryTileProps {
 
 /**
  * One case study, set as a tile with a fixed anatomy so three of them read as one
- * component: ruled wordmark band, headline result, result-led title, two secondary
- * results on a hairline rail, and the single "Read the story" affordance. There is no
+ * component: ruled wordmark band, result-led title, summary, the results on a hairline
+ * rail, and the single "Read the story" affordance. There is no
  * partner photography or brand art, so the identity is the partner's own wordmark set
  * large in the band and the figures set in tabular numerals.
  */
@@ -76,27 +76,14 @@ export function StoryTile({
         <span className="eyebrow tabular shrink-0 text-fg-subtle">{weeks} weeks</span>
       </div>
 
+      {/* The story leads. A 52px figure above a 22px title inverted the hierarchy: the
+          eye landed on a statistic before it knew whose story it was. All three results
+          now share one scale on the rail below. */}
       <div className={cn("flex flex-1 flex-col px-6 pt-7 pb-6 lg:px-7", lead && "lg:pt-8")}>
-        <p>
-          <Figure
-            metric={headline}
-            className={lead ? "text-[3.25rem] tracking-[-0.03em]" : "text-[2.5rem] tracking-[-0.03em]"}
-          />
-        </p>
-        <p
-          className={cn(
-            "mt-3 max-w-[32ch] text-pretty text-fg-muted",
-            lead ? "text-[0.9375rem] leading-6" : "text-[0.8125rem] leading-5",
-          )}
-        >
-          {headline.label}
-          {headline.footnote ? <FootnoteRef n={1} /> : null}
-        </p>
-
         <Heading
           className={cn(
-            "mt-7 font-medium text-balance hyphens-none text-fg",
-            lead ? "text-[1.375rem] leading-[1.3] tracking-[-0.01em]" : "text-[1.0625rem] leading-[1.4]",
+            "font-medium text-balance hyphens-none text-fg",
+            lead ? "text-[1.75rem] leading-[1.25] tracking-[-0.02em]" : "text-[1.1875rem] leading-[1.35]",
           )}
         >
           <Link
@@ -117,8 +104,8 @@ export function StoryTile({
         </p>
 
         <div className="mt-auto pt-8">
-          <dl className="grid grid-cols-2 gap-x-6 border-t border-border pt-5">
-            {secondary.map((metric, index) => (
+          <dl className={cn("grid gap-x-6 border-t border-border pt-5", lead ? "grid-cols-3" : "grid-cols-2")}>
+            {(lead ? [headline, ...secondary] : secondary).map((metric, index) => (
               <div key={metric.label} className={cn("min-w-0", index > 0 && "border-l border-border pl-6")}>
                 <dt className="sr-only">{metric.label}</dt>
                 <dd>
