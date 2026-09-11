@@ -149,7 +149,7 @@ export default function CustomersPage() {
             </div>
 
             <div className="lg:col-span-5">
-              {lead ? <StoryTile study={lead.study} customer={lead.customer} size="lead" /> : null}
+              {lead ? <StoryTile as="h2" study={lead.study} customer={lead.customer} size="lead" /> : null}
             </div>
 
             {others.map(({ study, customer }, index) => (
@@ -158,7 +158,7 @@ export default function CustomersPage() {
                 delay={index * 0.06}
                 className={index === 0 ? "min-w-0 lg:col-span-7" : "min-w-0 lg:col-span-5"}
               >
-                <StoryTile study={study} customer={customer} />
+                <StoryTile as="h2" study={study} customer={customer} />
               </Reveal>
             ))}
           </div>

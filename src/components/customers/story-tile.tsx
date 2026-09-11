@@ -38,6 +38,8 @@ export interface StoryTileProps {
   customer: Customer;
   /** `lead` sets the headline figure larger and adds the deployment summary. */
   size?: "lead" | "compact";
+  /** Heading level for the title, so the page's outline never skips a level. */
+  as?: "h2" | "h3";
   className?: string;
 }
 
@@ -48,7 +50,13 @@ export interface StoryTileProps {
  * partner photography or brand art, so the identity is the partner's own wordmark set
  * large in the band and the figures set in tabular numerals.
  */
-export function StoryTile({ study, customer, size = "compact", className }: StoryTileProps) {
+export function StoryTile({
+  study,
+  customer,
+  size = "compact",
+  as: Heading = "h3",
+  className,
+}: StoryTileProps) {
   const lead = size === "lead";
   const [headline, ...rest] = customer.results;
   const secondary = rest.slice(0, 2);
@@ -86,7 +94,7 @@ export function StoryTile({ study, customer, size = "compact", className }: Stor
           {headline.label}
         </p>
 
-        <h3
+        <Heading
           className={cn(
             "mt-7 font-medium text-balance hyphens-none text-fg",
             lead ? "text-[1.375rem] leading-[1.3] tracking-[-0.01em]" : "text-[1.0625rem] leading-[1.4]",
@@ -98,7 +106,7 @@ export function StoryTile({ study, customer, size = "compact", className }: Stor
           >
             {study.title}
           </Link>
-        </h3>
+        </Heading>
 
         <p
           className={cn(
