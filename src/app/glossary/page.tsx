@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 import { LetterNav, letterId } from "@/components/resources/letter-nav";
 import { ResourcesCta } from "@/components/resources/resources-cta";
@@ -88,45 +89,47 @@ export default function GlossaryPage() {
 
       <Section spacing="none" className="pb-20 lg:pb-28" aria-label="Terms by letter">
         <Container>
-          <div className="max-w-[64rem]">
-            {groups.map(([letter, terms]) => (
-              <section
-                key={letter}
-                id={letterId(letter)}
-                aria-labelledby={`${letterId(letter)}-title`}
-                className="scroll-mt-32 pt-12 lg:pt-16"
-              >
-                <div className="flex items-baseline justify-between gap-6 border-b border-border-strong pb-3">
-                  <h2 id={`${letterId(letter)}-title`} className="text-h3 text-fg">
-                    {letter}
-                  </h2>
-                  <p className="eyebrow tabular text-fg-subtle">
-                    {terms.length} {terms.length === 1 ? "term" : "terms"}
-                  </p>
-                </div>
-                <dl className="divide-y divide-border">
-                  {terms.map((term) => (
-                    <div
-                      key={term.slug}
-                      className="grid gap-1.5 py-6 md:grid-cols-[minmax(0,17rem)_minmax(0,1fr)] md:gap-8 lg:grid-cols-[minmax(0,26rem)_minmax(0,1fr)] lg:gap-12"
-                    >
-                      <dt className="text-h5 font-semibold">
-                        <Link
-                          href={glossaryPath(term.slug)}
-                          className="rounded-sm text-fg transition-colors duration-150 ease-standard hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-ring"
-                        >
-                          {term.term}
-                        </Link>
-                      </dt>
-                      <dd className="max-w-[31em] text-[0.9375rem] leading-[1.65] text-fg-muted">
-                        {term.shortDefinition}
-                      </dd>
-                    </div>
-                  ))}
+          {groups.map(([letter, terms]) => (
+            <section
+              key={letter}
+              id={letterId(letter)}
+              aria-labelledby={`${letterId(letter)}-title`}
+              className="scroll-mt-20 pt-12 lg:pt-16"
+            >
+              <div className="flex items-baseline justify-between gap-6 border-b border-border-strong pb-3">
+                <h2 id={`${letterId(letter)}-title`} className="text-h3 text-fg">
+                  {letter}
+                </h2>
+                <p className="eyebrow tabular text-fg-subtle">
+                  {terms.length} {terms.length === 1 ? "term" : "terms"}
+                </p>
+              </div>
+              <dl className="divide-y divide-border">
+                {terms.map((term) => (
+                  <div
+                    key={term.slug}
+                    className="group/term grid gap-1.5 py-6 md:grid-cols-[minmax(0,16rem)_minmax(0,1fr)] md:gap-8 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-10"
+                  >
+                    <dt className="text-h5 font-semibold">
+                      <Link
+                        href={glossaryPath(term.slug)}
+                        className="rounded-sm text-fg transition-colors duration-150 ease-standard hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-ring"
+                      >
+                        {term.term}
+                      </Link>
+                    </dt>
+                    <dd className="flex items-start justify-between gap-10 text-[0.9375rem] leading-[1.65] text-fg-muted">
+                      <span className="max-w-[32em]">{term.shortDefinition}</span>
+                      <ArrowRight
+                        aria-hidden
+                        className="mt-1 hidden size-4 shrink-0 text-fg-faint transition-[transform,color] duration-200 ease-out-quart group-hover/term:translate-x-0.5 group-hover/term:text-fg lg:block"
+                      />
+                    </dd>
+                  </div>
+                ))}
                 </dl>
               </section>
             ))}
-          </div>
         </Container>
       </Section>
 

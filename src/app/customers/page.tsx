@@ -147,7 +147,9 @@ export default function CustomersPage() {
               {leadSummary.length > 0 && lead ? (
                 <div className="mt-12 hidden lg:block">
                   <p className="eyebrow">In the {lead.customer.name} story</p>
-                  <dl className="mt-5 divide-y divide-border border-y border-border">
+                  {/* Open at the bottom: the scope stats below carry their own top rule,
+                      and two hairlines would stack into one 2px line when they meet. */}
+                  <dl className="mt-5 divide-y divide-border border-t border-border">
                     {leadSummary.map((item) => (
                       <div key={item.term} className="grid grid-cols-[5.5rem_minmax(0,1fr)] gap-4 py-3.5">
                         <dt className="text-[0.8125rem] text-fg-subtle">{item.term}</dt>

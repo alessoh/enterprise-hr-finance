@@ -9,7 +9,8 @@ import { customerPath } from "@/lib/seo/routes";
 import { cn, formatNumber } from "@/lib/utils";
 
 /**
- * Figure set from a content Metric: prefix, tabular number, unit at 55% in fg-muted.
+ * Figure set from a content Metric. The unit sits tight at the numeral's own weight, so
+ * the figure reads as one thing rather than a three-size cluster (DESIGN.md section 12).
  * Falls back to the preformatted string when the metric has no numeric value.
  */
 function Figure({ metric, className }: { metric: Metric; className?: string }) {
@@ -21,14 +22,11 @@ function Figure({ metric, className }: { metric: Metric; className?: string }) {
         <>
           {metric.prefix ? <span>{metric.prefix}</span> : null}
           <span>{formatNumber(n, { decimals: Number.isInteger(n) ? 0 : 1 })}</span>
-          {unit ? (
-            <span className="ml-[0.16em] text-[0.55em] font-medium tracking-[-0.01em] text-fg-muted">{unit}</span>
-          ) : null}
+          {unit ? <span className="ml-[0.04em] text-[0.82em] tracking-[-0.02em]">{unit}</span> : null}
         </>
       ) : (
         <span>{metric.value}</span>
       )}
-      {metric.footnote ? <FootnoteRef n={1} className="tracking-normal" /> : null}
     </span>
   );
 }
@@ -92,6 +90,7 @@ export function StoryTile({
           )}
         >
           {headline.label}
+          {headline.footnote ? <FootnoteRef n={1} /> : null}
         </p>
 
         <Heading
@@ -126,6 +125,7 @@ export function StoryTile({
                   <Figure metric={metric} className="text-[1.5rem] tracking-[-0.02em]" />
                   <span className="mt-2 block text-[0.8125rem] leading-5 text-pretty text-fg-muted">
                     {metric.label}
+                    {metric.footnote ? <FootnoteRef n={1} /> : null}
                   </span>
                 </dd>
               </div>
