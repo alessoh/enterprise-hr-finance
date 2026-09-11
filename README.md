@@ -3,10 +3,8 @@
 Marketing and subscription website for **Meridian**, AI agent software that runs HR and finance operations for
 enterprises. Next.js 16 App Router, React 19, Tailwind CSS v4, TypeScript strict. Light mode only.
 
-Meridian is a fictional product. The brand, the twelve agents, the platform layer, the pricing, and the eight design
-partners are all invented for this build; the market model behind them comes from the briefing in
-[research/source-briefing.md](research/source-briefing.md). No real company's trademarks, logos, or customers appear
-anywhere on the site.
+Meridian is the brand, the twelve agents, the platform layer, the pricing, and the eight design partners are for this build; the market model behind them comes from the briefing in
+[research/source-briefing.md](research/source-briefing.md). 
 
 ## What is here
 
