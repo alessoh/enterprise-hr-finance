@@ -82,9 +82,12 @@ export function PlanCard({ plan, interval }: PlanCardProps) {
 
       <div className="mt-7">
         {custom ? (
-          // Set a step down from the numerals: at the same point size a word of letters
-          // reads optically larger than "$2,499", so the three prices stop matching.
-          <p className="text-[2.25rem] leading-none font-medium tracking-[-0.025em] text-fg">Custom</p>
+          // Same face, size and baseline as the numerals so the three price rows and the
+          // dividers below them line up; only the tracking is eased, because a word of
+          // letters reads wider than "$2,499" at the same setting.
+          <p className="flex items-baseline text-fg">
+            <span className="text-[2.75rem] leading-none font-medium tracking-[-0.035em]">Custom</span>
+          </p>
         ) : (
           <p className="flex items-baseline gap-1 text-fg">
             <span className="tabular text-[2.75rem] leading-none font-medium tracking-[-0.03em]">

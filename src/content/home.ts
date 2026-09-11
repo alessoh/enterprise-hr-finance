@@ -12,7 +12,7 @@ export const homeCopy: HomeCopy = {
     proofLine: "Governed by design. SOC 2 Type II. Bring your own model.",
   },
 
-  logoWallLabel: "Design partners in healthcare, logistics, financial services, retail, energy, and manufacturing",
+  logoWallLabel: "Eight design partners run Meridian agents in production",
 
   proofStats: [
     { value: "75%", label: "of HR cases deflected", numeric: 75, suffix: "%", footnote: MODELED },
