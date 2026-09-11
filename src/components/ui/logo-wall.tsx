@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
  * louder than its neighbour. Rendered in fg-subtle, fg on hover, in a 32px box.
  */
 
-const glyph = "size-4 shrink-0";
+const glyph = "size-[0.94em] shrink-0";
 
 type Wordmark = { name: string; mark: React.ReactNode };
 
@@ -22,7 +22,7 @@ export const partnerWordmarks: Wordmark[] = [
           <path d="M8 1.5 10.5 8 8 14.5 5.5 8Z" strokeLinejoin="round" />
           <path d="M5.5 8h5" />
         </svg>
-        <span className="text-[1.0625rem] font-medium tracking-[0.18em]">NORTHWIND</span>
+        <span className="text-[1.0625em] font-medium tracking-[0.18em]">NORTHWIND</span>
       </span>
     ),
   },
@@ -30,8 +30,8 @@ export const partnerWordmarks: Wordmark[] = [
     name: "Halvorsen Health",
     mark: (
       <span className="inline-flex items-start gap-1">
-        <span className="text-[1.0625rem] leading-none font-medium tracking-[-0.01em]">Halvorsen</span>
-        <svg viewBox="0 0 16 16" aria-hidden className="mt-0.5 size-2.5 shrink-0" fill="currentColor">
+        <span className="text-[1.0625em] leading-none font-medium tracking-[-0.01em]">Halvorsen</span>
+        <svg viewBox="0 0 16 16" aria-hidden className="mt-[0.1em] size-[0.6em] shrink-0" fill="currentColor">
           <path d="M6.25 1h3.5v5.25H15v3.5H9.75V15h-3.5V9.75H1v-3.5h5.25Z" />
         </svg>
       </span>
@@ -44,7 +44,7 @@ export const partnerWordmarks: Wordmark[] = [
         <svg viewBox="0 0 16 16" aria-hidden className={glyph} fill="none" stroke="currentColor" strokeWidth="1.5">
           <path d="M1.5 13 6 4.5l3 5 2-3 3.5 6.5Z" strokeLinejoin="round" />
         </svg>
-        <span className="font-mono text-[1.0625rem] leading-none font-medium tracking-[-0.02em]">bluepeak</span>
+        <span className="font-mono text-[1.0625em] leading-none font-medium tracking-[-0.02em]">bluepeak</span>
       </span>
     ),
   },
@@ -52,10 +52,10 @@ export const partnerWordmarks: Wordmark[] = [
     name: "Castellan Financial",
     mark: (
       <span className="inline-flex items-center gap-2.5">
-        <svg viewBox="0 0 16 16" aria-hidden className="size-3 shrink-0" fill="currentColor">
+        <svg viewBox="0 0 16 16" aria-hidden className="size-[0.72em] shrink-0" fill="currentColor">
           <path d="M8 1 15 8 8 15 1 8Z" />
         </svg>
-        <span className="text-[1.0625rem] font-medium tracking-[0.18em]">CASTELLAN</span>
+        <span className="text-[1.0625em] font-medium tracking-[0.18em]">CASTELLAN</span>
       </span>
     ),
   },
@@ -63,12 +63,12 @@ export const partnerWordmarks: Wordmark[] = [
     name: "Orion Retail Group",
     mark: (
       <span className="inline-flex items-center gap-2">
-        <span className="text-[1.0625rem] leading-none font-medium tracking-[-0.01em]">Orion</span>
-        <svg viewBox="0 0 24 8" aria-hidden className="h-2 w-6 shrink-0" fill="currentColor">
-          <circle cx="3" cy="4" r="2" />
-          <circle cx="12" cy="4" r="2" />
-          <circle cx="21" cy="4" r="2" />
+        <svg viewBox="0 0 16 16" aria-hidden className={glyph} fill="currentColor">
+          <circle cx="3.25" cy="12.75" r="1.6" />
+          <circle cx="8" cy="8" r="1.6" />
+          <circle cx="12.75" cy="3.25" r="1.6" />
         </svg>
+        <span className="text-[1.0625em] leading-none font-medium tracking-[-0.01em]">Orion</span>
       </span>
     ),
   },
@@ -80,7 +80,7 @@ export const partnerWordmarks: Wordmark[] = [
           <path d="M13.5 2.5C8 2.5 3.5 6 3.5 12.5c5.5 0 10-3.5 10-10Z" strokeLinejoin="round" />
           <path d="M3.5 12.5 9 7" />
         </svg>
-        <span className="text-[1.0625rem] leading-none font-medium tracking-[-0.01em]">verdant</span>
+        <span className="text-[1.0625em] leading-none font-medium tracking-[-0.01em]">verdant</span>
       </span>
     ),
   },
@@ -92,7 +92,7 @@ export const partnerWordmarks: Wordmark[] = [
           <circle cx="8" cy="8" r="6.25" />
           <path d="M1.75 8h12.5" />
         </svg>
-        <span className="text-[1.0625rem] font-medium tracking-[0.18em]">ATLAS</span>
+        <span className="text-[1.0625em] font-medium tracking-[0.18em]">ATLAS</span>
       </span>
     ),
   },
@@ -100,15 +100,27 @@ export const partnerWordmarks: Wordmark[] = [
     name: "Summit Bank",
     mark: (
       <span className="inline-flex items-baseline gap-1.5">
-        <svg viewBox="0 0 16 16" aria-hidden className="size-3.5 shrink-0 self-center" fill="currentColor">
+        <svg viewBox="0 0 16 16" aria-hidden className="size-[0.82em] shrink-0 self-center" fill="currentColor">
           <path d="M8 2 14.5 14h-13Z" />
         </svg>
-        <span className="text-[1.0625rem] leading-none font-medium tracking-[-0.01em]">Summit</span>
-        <span className="text-[0.6875rem] font-medium tracking-[0.16em]">BANK</span>
+        <span className="text-[1.0625em] leading-none font-medium tracking-[-0.01em]">Summit</span>
+        <span className="text-[0.6875em] font-medium tracking-[0.16em]">BANK</span>
       </span>
     ),
   },
 ];
+
+/**
+ * Scales a wordmark without touching its internal type sizes. The marks are set in `em`
+ * relative to this, so one knob keeps every glyph, gap and tracking in proportion.
+ */
+export const wordmarkScale = {
+  sm: "text-[0.875rem]",
+  md: "text-[1rem]",
+  lg: "text-[1.2rem]",
+} as const;
+
+export type WordmarkSize = keyof typeof wordmarkScale;
 
 export interface LogoWallProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
@@ -161,7 +173,7 @@ export function LogoWall({
         </p>
       ) : null}
       {variant === "row" ? (
-        <ul className="flex flex-wrap items-center justify-between gap-x-8 gap-y-6">
+        <ul className="grid grid-cols-2 items-center justify-items-center gap-x-6 gap-y-7 sm:grid-cols-3 lg:grid-cols-6">
           {marks.map((w) => (
             <Item key={w.name} wordmark={w} />
           ))}

@@ -71,11 +71,11 @@ export default function PlatformPage() {
           </div>
           {/* Outside the prose measure: the six parts span the container, in the same
               order as the diagram below. */}
-          <dl className="mt-12 grid gap-x-10 sm:grid-cols-2 lg:mt-14 lg:grid-cols-3">
+          <dl className="mt-12 grid gap-x-10 gap-y-6 sm:grid-cols-2 lg:mt-14 lg:grid-cols-3">
             {parts.map((part) => (
-              <div key={part.slug} className="border-t border-border py-4">
+              <div key={part.slug} className="border-t border-border pt-4">
                 <dt className="text-[0.9375rem] font-medium text-fg">{part.name}</dt>
-                <dd className="mt-1 text-sm leading-relaxed text-fg-muted">{part.eyebrow}</dd>
+                <dd className="mt-1.5 text-sm leading-relaxed text-fg-muted">{part.eyebrow}</dd>
               </div>
             ))}
           </dl>

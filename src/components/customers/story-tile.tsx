@@ -73,7 +73,7 @@ export function StoryTile({
         <PartnerWordmark
           name={customer.name}
           fallback={customer.logoText}
-          className="origin-left [zoom:1.2]"
+          size="lg"
         />
         <span className="eyebrow tabular shrink-0 text-fg-subtle">{weeks} weeks</span>
       </div>

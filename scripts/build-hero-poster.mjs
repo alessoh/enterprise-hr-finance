@@ -79,7 +79,7 @@ for (let i = 0; i < MERIDIANS; i += 1) {
   longitudes.push(...polylinePaths(pts));
 }
 parts.push(
-  `<g fill="none" stroke="${COLOR.ink}" stroke-opacity="0.2" stroke-width="1.1">${longitudes
+  `<g fill="none" stroke="${COLOR.ink}" stroke-opacity="0.34" stroke-width="1.2">${longitudes
     .map((d) => `<path d="${d}"/>`)
     .join("")}</g>`,
 );
@@ -94,7 +94,7 @@ for (let i = 0; i < LATITUDES; i += 1) {
   latitudes.push(...polylinePaths(pts));
 }
 parts.push(
-  `<g fill="none" stroke="${COLOR.ink}" stroke-opacity="0.11" stroke-width="1.1">${latitudes
+  `<g fill="none" stroke="${COLOR.ink}" stroke-opacity="0.2" stroke-width="1.2">${latitudes
     .map((d) => `<path d="${d}"/>`)
     .join("")}</g>`,
 );
@@ -109,13 +109,13 @@ for (let i = 0; i < 12; i += 1) {
 }
 parts.push(
   `<g fill="${COLOR.accent}">${nodes
-    .map(([x, y]) => `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="6.4"/>`)
+    .map(([x, y]) => `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="8.8"/>`)
     .join("")}</g>`,
 );
 
 // Silhouette, then the governed line on top. Neither is tilted in the scene.
 parts.push(
-  `<circle cx="${CX}" cy="${CY}" r="${RPX}" fill="none" stroke="${COLOR.rim}" stroke-opacity="0.9" stroke-width="1.2"/>`,
+  `<circle cx="${CX}" cy="${CY}" r="${RPX}" fill="none" stroke="${COLOR.rim}" stroke-opacity="1" stroke-width="1.3"/>`,
 );
 const primeHalf = RPX * 1.016 * Math.sin(PRIME_LIMIT);
 parts.push(

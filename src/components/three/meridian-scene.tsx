@@ -77,13 +77,13 @@ function Graticule() {
       {longitudes.map((geometry, i) => (
         <line key={`lon-${i}`}>
           <primitive object={geometry} attach="geometry" />
-          <lineBasicMaterial attach="material" color={COLOR.meridian} transparent opacity={0.2} />
+          <lineBasicMaterial attach="material" color={COLOR.meridian} transparent opacity={0.34} />
         </line>
       ))}
       {latitudes.map((geometry, i) => (
         <line key={`lat-${i}`}>
           <primitive object={geometry} attach="geometry" />
-          <lineBasicMaterial attach="material" color={COLOR.meridian} transparent opacity={0.11} />
+          <lineBasicMaterial attach="material" color={COLOR.meridian} transparent opacity={0.2} />
         </line>
       ))}
     </>
@@ -169,11 +169,11 @@ function AgentNodes() {
   return (
     <group ref={groupRef}>
       <instancedMesh ref={meshRef} args={[undefined, undefined, NODE_COUNT]} frustumCulled={false}>
-        <sphereGeometry args={[0.019, 14, 14]} />
+        <sphereGeometry args={[0.026, 16, 16]} />
         <meshBasicMaterial color={COLOR.node} />
       </instancedMesh>
       <instancedMesh ref={haloRef} args={[undefined, undefined, NODE_COUNT]} frustumCulled={false}>
-        <sphereGeometry args={[0.019, 12, 12]} />
+        <sphereGeometry args={[0.026, 12, 12]} />
         <meshBasicMaterial color={COLOR.halo} transparent opacity={0} depthWrite={false} />
       </instancedMesh>
     </group>
@@ -227,7 +227,7 @@ function GovernedLine() {
     <>
       <line>
         <primitive object={silhouette} attach="geometry" />
-        <lineBasicMaterial attach="material" color={COLOR.rim} transparent opacity={0.9} />
+        <lineBasicMaterial attach="material" color={COLOR.rim} transparent opacity={1} />
       </line>
       <line>
         <primitive object={prime} attach="geometry" />

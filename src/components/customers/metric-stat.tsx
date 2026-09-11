@@ -47,21 +47,25 @@ export function CompactMetric({ metric, footnote = 1, className }: CompactMetric
   const n = metric.numeric;
   return (
     <div className={cn("flex min-w-0 flex-col gap-2", className)}>
-      <div className="tabular flex items-baseline gap-0.5 text-[1.75rem] leading-none font-medium tracking-[-0.025em] whitespace-nowrap text-fg">
+      {/* One figure, not a three-size cluster: the unit sits close at the numeral's own
+          weight, and the footnote marker rides the label instead of the number. */}
+      <div className="tabular flex items-baseline text-[1.75rem] leading-none font-medium tracking-[-0.025em] whitespace-nowrap text-fg">
         {typeof n === "number" ? (
           <>
             {metric.prefix ? <span>{metric.prefix}</span> : null}
             <span>{formatNumber(n, { decimals: decimalsFor(n) })}</span>
             {metric.suffix?.trim() ? (
-              <span className="ml-[0.16em] text-[0.6em] font-medium tracking-[-0.01em] text-fg-muted">{metric.suffix.trim()}</span>
+              <span className="ml-[0.04em] text-[0.82em] tracking-[-0.02em]">{metric.suffix.trim()}</span>
             ) : null}
           </>
         ) : (
           <span>{metric.value}</span>
         )}
-        {metric.footnote ? <FootnoteRef n={footnote} className="tracking-normal" /> : null}
       </div>
-      <p className="text-[0.8125rem] leading-snug text-pretty text-fg-muted">{metric.label}</p>
+      <p className="text-[0.8125rem] leading-snug text-pretty text-fg-muted">
+        {metric.label}
+        {metric.footnote ? <FootnoteRef n={footnote} /> : null}
+      </p>
     </div>
   );
 }

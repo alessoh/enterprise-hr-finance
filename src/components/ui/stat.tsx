@@ -57,23 +57,24 @@ export const Stat = React.forwardRef<HTMLDivElement, StatProps>(function Stat(
       className={cn("flex flex-col", align === "center" && "items-center text-center", className)}
       {...props}
     >
+      {/* The figure reads as one thing: the unit sits tight at the numeral's own weight
+          rather than shrinking to 60% and changing colour. The footnote marker rides
+          the label, so the number is never a three-size cluster. */}
       <div
         className={cn(
-          "flex items-baseline gap-0.5 whitespace-nowrap text-fg",
+          "flex items-baseline whitespace-nowrap text-fg",
           size === "lg" ? "text-stat" : "text-[2rem] leading-none font-medium tracking-[-0.025em] tabular",
         )}
       >
         {prefix ? <span>{prefix}</span> : null}
         <span>{value}</span>
-        {unit ? (
-          <span className="ml-1 text-[0.6em] font-medium tracking-[-0.01em] text-fg-muted">{unit}</span>
-        ) : null}
-        {footnote ? (
-          <FootnoteRef n={footnote} scope={footnoteScope} className="ml-1.5 self-start align-baseline tracking-normal" />
-        ) : null}
+        {unit ? <span className="ml-[0.04em] text-[0.82em] tracking-[-0.02em]">{unit}</span> : null}
       </div>
       <div className={cn("mt-3 flex flex-wrap items-baseline gap-x-2 gap-y-1", align === "center" && "justify-center")}>
-        <p className="text-sm text-fg-muted">{label}</p>
+        <p className="text-sm text-fg-muted">
+          {label}
+          {footnote ? <FootnoteRef n={footnote} scope={footnoteScope} /> : null}
+        </p>
         {delta ? (
           <span className={cn("tabular text-[0.8125rem] font-medium", deltaTone[tone])}>
             <span aria-hidden>{delta.direction === "up" ? "▲" : "▼"}</span>

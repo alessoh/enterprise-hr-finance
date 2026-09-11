@@ -34,7 +34,7 @@ export function CustomerCard({ customer, study }: CustomerCardProps) {
         <PartnerWordmark
           name={customer.name}
           fallback={customer.logoText}
-          className="origin-left [zoom:1.2]"
+          size="lg"
         />
         <span className="eyebrow shrink-0 text-fg-subtle">{customer.region}</span>
       </div>
