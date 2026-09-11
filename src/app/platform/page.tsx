@@ -28,11 +28,19 @@ export const metadata: Metadata = createMetadata({
   keywords: [...platformOverview.seo.keywords],
 });
 
-/** First sentence of a description, so six cells stay the same shape. */
-function firstSentence(text: string): string {
-  const match = text.match(/^[\s\S]*?[.!?](?=\s|$)/);
-  return (match ? match[0] : text).trim();
-}
+/**
+ * One line per part, written to a common length so the six cells share a shape. The
+ * pillars' own descriptions run from one sentence to six and made this grid ragged;
+ * each pillar page states the full version.
+ */
+const PART_LINE: Record<string, string> = {
+  assist: "The conversational front door across Meridian and the systems you already run.",
+  registry: "The system of record for every agent: owner, scope, permissions, and compliance.",
+  studio: "A low-code builder for your own agents, with approvals and evaluations built in.",
+  gateway: "Third-party and custom agents connected through MCP, A2A, and OpenTelemetry.",
+  "data-fabric": "Zero-copy reads from your warehouse, plus a lakehouse and 3,000 connectors.",
+  trust: "Human approval on consequential actions, an immutable audit trail, your model.",
+};
 
 export default function PlatformPage() {
   const pillars = PRODUCT_SLUGS.map((slug) => getPlatformPillar(slug)).filter(
@@ -85,7 +93,7 @@ export default function PlatformPage() {
                     terms read as a bare list. Trimmed to the first sentence so the six
                     cells stay even. */}
                 <dd className="mt-1.5 text-sm leading-relaxed text-pretty text-fg-muted">
-                  {firstSentence(part.description)}
+                  {PART_LINE[part.slug] ?? part.eyebrow}
                 </dd>
               </div>
             ))}
