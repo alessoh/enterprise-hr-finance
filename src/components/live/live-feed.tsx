@@ -3,11 +3,11 @@
 import { cn, formatCurrency } from "@/lib/utils";
 import type { AgentEvent } from "@/lib/live/types";
 
-const CATEGORY_TONE: Record<AgentEvent["category"], string> = {
-  hr: "bg-accent-soft text-accent-hover",
-  finance: "bg-bg-muted text-fg-muted",
-  legal: "bg-warning-soft text-warning",
-};
+/**
+ * One neutral chip for every category. The agent name does the work; colour is
+ * reserved for state. Amber in this row means "needs approval" and nothing else.
+ */
+const CATEGORY_TONE = "bg-bg-muted text-fg-muted";
 
 /** Screen-reader only: the titles already lead with the verb visually. */
 const KIND_LABEL: Record<AgentEvent["kind"], string> = {
@@ -57,7 +57,7 @@ export function LiveFeed({ events, limit = 8, showApprovals = true, className }:
           <span
             className={cn(
               "hidden shrink-0 rounded-sm px-1.5 py-0.5 text-[11px] font-medium leading-4 sm:inline-block",
-              CATEGORY_TONE[event.category],
+              CATEGORY_TONE,
             )}
           >
             {event.agentName.replace(" Agent", "")}

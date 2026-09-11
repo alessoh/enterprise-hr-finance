@@ -112,6 +112,8 @@ export const partnerWordmarks: Wordmark[] = [
 export interface LogoWallProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Marquee (48s, pauses on hover; static under reduced motion) or a static 4×2 grid. */
   variant?: "marquee" | "grid";
+  /** Caption alignment. Left on left-aligned pages; centre only in centred sections. */
+  labelAlign?: "left" | "center";
   /** Optional caption above the wall, e.g. "Design partners in six industries". */
   label?: React.ReactNode;
   /** Subset to render; defaults to all eight. */
@@ -130,11 +132,27 @@ function Item({ wordmark }: { wordmark: Wordmark }) {
   );
 }
 
-export function LogoWall({ variant = "marquee", label, names, className, ...props }: LogoWallProps) {
+export function LogoWall({
+  variant = "marquee",
+  label,
+  labelAlign = "center",
+  names,
+  className,
+  ...props
+}: LogoWallProps) {
   const marks = names ? partnerWordmarks.filter((w) => names.includes(w.name)) : partnerWordmarks;
   return (
     <div className={cn("w-full", className)} {...props}>
-      {label ? <p className="mb-8 text-center text-[0.8125rem] text-fg-subtle">{label}</p> : null}
+      {label ? (
+        <p
+          className={cn(
+            "mb-8 text-[0.8125rem] text-fg-subtle",
+            labelAlign === "center" ? "text-center" : "text-left",
+          )}
+        >
+          {label}
+        </p>
+      ) : null}
       {variant === "grid" ? (
         <ul className="grid grid-cols-2 place-items-center gap-x-6 gap-y-8 sm:grid-cols-4">
           {marks.map((w) => (

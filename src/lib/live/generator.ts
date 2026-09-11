@@ -287,12 +287,18 @@ const TICK_MS = 2600;
 const tickToTime = (tick: number) => tick * TICK_MS;
 const timeToTick = (now: number) => Math.floor(now / TICK_MS);
 
-/** Minutes elapsed in the US Eastern business day (UTC-5), clamped to 0..600. */
+/**
+ * Minutes elapsed in the US Eastern business day (UTC-5), clamped to 0..600.
+ * Fractional, so counters derived from it creep up between ticks instead of
+ * jumping once a minute.
+ */
 function businessMinutes(now: number): number {
-  const utc = new Date(now);
-  const eastern = utc.getTime() - 5 * 60 * 60 * 1000;
-  const d = new Date(eastern);
-  const minutes = d.getUTCHours() * 60 + d.getUTCMinutes();
+  const eastern = new Date(now - 5 * 60 * 60 * 1000);
+  const minutes =
+    eastern.getUTCHours() * 60 +
+    eastern.getUTCMinutes() +
+    eastern.getUTCSeconds() / 60 +
+    eastern.getUTCMilliseconds() / 60000;
   const sinceOpen = minutes - 7 * 60; // 07:00 local start
   return Math.max(0, Math.min(600, sinceOpen));
 }
@@ -303,6 +309,8 @@ export function metricsAt(now: number): LiveMetrics {
   // Work accumulates fastest mid-morning and mid-afternoon.
   const curve = progress + 0.18 * Math.sin(progress * Math.PI * 2);
   const shaped = Math.max(0, Math.min(1, curve));
+  // Jitter is bucketed per minute so the numbers do not jump around, while the
+  // curve itself is continuous so they visibly climb.
   const rng = mulberry32(Math.floor(now / 60000));
 
   const casesResolvedToday = Math.round(1420 * shaped + rng() * 12);

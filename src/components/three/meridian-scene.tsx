@@ -6,63 +6,84 @@ import * as THREE from "three";
 
 /** DESIGN.md §3 "3D scene palette". Hardcoded sRGB because WebGL cannot read CSS variables. */
 const COLOR = {
-  sphere: "#f9f7f4",
+  sphere: "#fbfaf8",
   rim: "#cdcac5",
   meridian: "#1c1712",
   prime: "#1f5390",
   node: "#1f5390",
-  halo: "#e7f1fe",
+  halo: "#7ea7dc",
   sky: "#fefdfc",
-  ground: "#cdcac5",
+  ground: "#e3e1dd",
 } as const;
 
-/** 12 great circles through the poles read as 24 longitude lines (DESIGN.md §7). */
-const MERIDIAN_CIRCLES = 12;
-const POINTS = 128;
+const MERIDIANS = 24;
+const LATITUDES = 5;
+/** Longitude arcs stop short of the poles so they never converge into a knot. */
+const POLE_LIMIT = THREE.MathUtils.degToRad(76);
+const SEGMENTS = 96;
 const NODE_COUNT = 12;
 const TILT = THREE.MathUtils.degToRad(23.4);
-const IDLE_SPEED = 0.06;
-const PULSE_MS = 600;
+const IDLE_SPEED = 0.075;
+const PULSE_MS = 700;
+const R = 1;
 
-/** Points of one great circle through the poles, rotated by `longitude`. */
-function meridianPoints(longitude: number, radius = 1.004): Float32Array {
-  const array = new Float32Array(POINTS * 3);
-  const cos = Math.cos(longitude);
-  const sin = Math.sin(longitude);
-  for (let i = 0; i < POINTS; i += 1) {
-    const theta = (i / (POINTS - 1)) * Math.PI * 2;
-    const x = Math.sin(theta) * radius;
-    const y = Math.cos(theta) * radius;
-    array[i * 3] = x * cos;
-    array[i * 3 + 1] = y;
-    array[i * 3 + 2] = x * sin;
+const toGeometry = (points: THREE.Vector3[]) => new THREE.BufferGeometry().setFromPoints(points);
+
+/** One longitude arc at `lon`, running between the pole limits. */
+function longitudeArc(lon: number, radius = R * 1.002): THREE.BufferGeometry {
+  const points: THREE.Vector3[] = [];
+  for (let i = 0; i <= SEGMENTS; i += 1) {
+    const lat = -POLE_LIMIT + (i / SEGMENTS) * (POLE_LIMIT * 2);
+    const cosLat = Math.cos(lat);
+    points.push(
+      new THREE.Vector3(
+        radius * cosLat * Math.sin(lon),
+        radius * Math.sin(lat),
+        radius * cosLat * Math.cos(lon),
+      ),
+    );
   }
-  return array;
+  return toGeometry(points);
 }
 
-function Meridians() {
-  const geometries = useMemo(
-    () =>
-      Array.from({ length: MERIDIAN_CIRCLES }, (_, i) => {
-        const longitude = (i / MERIDIAN_CIRCLES) * Math.PI;
-        const geometry = new THREE.BufferGeometry();
-        geometry.setAttribute("position", new THREE.BufferAttribute(meridianPoints(longitude), 3));
-        return { geometry, isPrime: i === 0 };
-      }),
+/** One full latitude ring at `lat`. */
+function latitudeRing(lat: number, radius = R * 1.002): THREE.BufferGeometry {
+  const points: THREE.Vector3[] = [];
+  const r = radius * Math.cos(lat);
+  const y = radius * Math.sin(lat);
+  for (let i = 0; i <= SEGMENTS; i += 1) {
+    const a = (i / SEGMENTS) * Math.PI * 2;
+    points.push(new THREE.Vector3(r * Math.sin(a), y, r * Math.cos(a)));
+  }
+  return toGeometry(points);
+}
+
+/** The graticule: 24 longitudes and 5 latitudes, drawn as an instrument, not a globe. */
+function Graticule() {
+  const { longitudes, latitudes } = useMemo(
+    () => ({
+      longitudes: Array.from({ length: MERIDIANS }, (_, i) =>
+        longitudeArc((i / MERIDIANS) * Math.PI * 2),
+      ),
+      latitudes: Array.from({ length: LATITUDES }, (_, i) =>
+        latitudeRing(-POLE_LIMIT + ((i + 1) / (LATITUDES + 1)) * POLE_LIMIT * 2),
+      ),
+    }),
     [],
   );
 
   return (
     <>
-      {geometries.map(({ geometry, isPrime }, i) => (
-        <line key={i}>
+      {longitudes.map((geometry, i) => (
+        <line key={`lon-${i}`}>
           <primitive object={geometry} attach="geometry" />
-          <lineBasicMaterial
-            attach="material"
-            color={isPrime ? COLOR.prime : COLOR.meridian}
-            transparent
-            opacity={isPrime ? 1 : 0.28}
-          />
+          <lineBasicMaterial attach="material" color={COLOR.meridian} transparent opacity={0.2} />
+        </line>
+      ))}
+      {latitudes.map((geometry, i) => (
+        <line key={`lat-${i}`}>
+          <primitive object={geometry} attach="geometry" />
+          <lineBasicMaterial attach="material" color={COLOR.meridian} transparent opacity={0.11} />
         </line>
       ))}
     </>
@@ -70,109 +91,165 @@ function Meridians() {
 }
 
 interface NodeConfig {
-  longitude: number;
+  /** Latitude the agent travels along. */
+  lat: number;
   speed: number;
   phase: number;
 }
 
 const NODES: NodeConfig[] = Array.from({ length: NODE_COUNT }, (_, i) => ({
-  // Spread the twelve agents across distinct meridians.
-  longitude: ((i + 0.5) / MERIDIAN_CIRCLES) * Math.PI,
-  speed: 0.10 + (i % 5) * 0.015,
-  phase: (i / NODE_COUNT) * Math.PI * 2,
+  lat: THREE.MathUtils.degToRad(-58 + i * 10.5),
+  speed: 0.1 + (i % 5) * 0.014,
+  // Golden-angle phases so the twelve never bunch up.
+  phase: (i * 2.39996) % (Math.PI * 2),
 }));
 
-/** One agent, travelling its meridian; pulses as it crosses the prime meridian plane. */
-function AgentNode({ config, index }: { config: NodeConfig; index: number }) {
+/**
+ * Twelve agents. Each travels its own latitude; when it passes the governed line at the
+ * front of the frame it pulses once. Work crossed the line and was checked.
+ */
+function AgentNodes() {
   const groupRef = useRef<THREE.Group>(null);
-  const haloRef = useRef<THREE.Mesh>(null);
-  const pulseStart = useRef<number>(-Infinity);
-  const wasNear = useRef(false);
-  const position = useMemo(() => new THREE.Vector3(), []);
+  const meshRef = useRef<THREE.InstancedMesh>(null);
+  const haloRef = useRef<THREE.InstancedMesh>(null);
+  const pulses = useRef<number[]>(NODES.map(() => -Infinity));
+  const wasNear = useRef<boolean[]>(NODES.map(() => false));
+  const haloOpacity = useRef(0);
+
+  // Reused every frame; nothing is allocated in the loop.
+  const dummy = useMemo(() => new THREE.Object3D(), []);
+  const world = useMemo(() => new THREE.Vector3(), []);
 
   useFrame((state) => {
-    const group = groupRef.current;
+    const mesh = meshRef.current;
     const halo = haloRef.current;
-    if (!group || !halo) return;
-
-    const t = state.clock.elapsedTime;
-    const theta = config.phase + t * config.speed;
-    const radius = 1.02;
-    const x = Math.sin(theta) * radius;
-    const y = Math.cos(theta) * radius;
-    position.set(x * Math.cos(config.longitude), y, x * Math.sin(config.longitude));
-    group.position.copy(position);
-
-    // The prime meridian lies in the xy-plane at z = 0 and x >= 0.
-    const near = Math.abs(position.z) < 0.06 && position.x > 0;
-    if (near && !wasNear.current) pulseStart.current = t;
-    wasNear.current = near;
-
-    const since = (t - pulseStart.current) * 1000;
-    if (since >= 0 && since < PULSE_MS) {
-      const progress = since / PULSE_MS;
-      const scale = 1 + 0.6 * progress;
-      halo.scale.setScalar(scale);
-      (halo.material as THREE.MeshBasicMaterial).opacity = 0.55 * (1 - progress);
-      halo.visible = true;
-    } else {
-      halo.visible = false;
-    }
-  });
-
-  return (
-    <group ref={groupRef} key={index}>
-      <mesh>
-        <sphereGeometry args={[0.018, 12, 12]} />
-        <meshBasicMaterial color={COLOR.node} />
-      </mesh>
-      <mesh ref={haloRef} visible={false}>
-        <sphereGeometry args={[0.03, 12, 12]} />
-        <meshBasicMaterial color={COLOR.halo} transparent opacity={0} depthWrite={false} />
-      </mesh>
-    </group>
-  );
-}
-
-function Globe({ interactive }: { interactive: boolean }) {
-  const groupRef = useRef<THREE.Group>(null);
-  const target = useRef({ x: 0, y: 0 });
-
-  useFrame((state, delta) => {
     const group = groupRef.current;
-    if (!group) return;
-    group.rotation.y += delta * IDLE_SPEED;
+    if (!mesh || !halo || !group) return;
+    const t = state.clock.elapsedTime;
+    let peak = 0;
 
-    if (interactive) {
-      // Pointer coords are -1..1; ±4 degrees of parallax, eased.
-      const max = THREE.MathUtils.degToRad(4);
-      target.current.x = state.pointer.y * max;
-      target.current.y = state.pointer.x * max;
+    for (let i = 0; i < NODES.length; i += 1) {
+      const config = NODES[i];
+      const lon = config.phase + t * config.speed;
+      const radius = R * 1.012;
+      const cosLat = Math.cos(config.lat);
+      dummy.position.set(
+        radius * cosLat * Math.sin(lon),
+        radius * Math.sin(config.lat),
+        radius * cosLat * Math.cos(lon),
+      );
+      dummy.scale.setScalar(1);
+      dummy.updateMatrix();
+      mesh.setMatrixAt(i, dummy.matrix);
+
+      // The governed line is fixed at the front of the frame: world x near 0, z positive.
+      world.copy(dummy.position).applyMatrix4(group.matrixWorld);
+      const near = Math.abs(world.x) < 0.05 && world.z > 0;
+      if (near && !wasNear.current[i]) pulses.current[i] = t;
+      wasNear.current[i] = near;
+
+      const since = (t - pulses.current[i]) * 1000;
+      if (since >= 0 && since < PULSE_MS) {
+        const progress = since / PULSE_MS;
+        peak = Math.max(peak, 1 - progress);
+        dummy.scale.setScalar(1 + 2.4 * progress);
+      } else {
+        dummy.scale.setScalar(0.0001);
+      }
+      dummy.updateMatrix();
+      halo.setMatrixAt(i, dummy.matrix);
     }
-    group.parent!.rotation.x = THREE.MathUtils.lerp(
-      group.parent!.rotation.x,
-      TILT + target.current.x,
-      0.06,
-    );
-    group.parent!.rotation.z = THREE.MathUtils.lerp(group.parent!.rotation.z, target.current.y, 0.06);
+
+    mesh.instanceMatrix.needsUpdate = true;
+    halo.instanceMatrix.needsUpdate = true;
+    haloOpacity.current = Math.max(peak, haloOpacity.current * 0.86);
+    (halo.material as THREE.MeshBasicMaterial).opacity = 0.45 * haloOpacity.current;
   });
 
   return (
     <group ref={groupRef}>
-      <mesh>
-        <sphereGeometry args={[1, 32, 32]} />
-        <meshStandardMaterial color={COLOR.sphere} roughness={0.95} metalness={0} />
-      </mesh>
-      <mesh scale={1.035}>
-        <sphereGeometry args={[1, 32, 32]} />
-        <meshBasicMaterial color={COLOR.rim} transparent opacity={0.18} side={THREE.BackSide} />
-      </mesh>
-      <Meridians />
-      {NODES.map((config, index) => (
-        <AgentNode key={index} config={config} index={index} />
-      ))}
+      <instancedMesh ref={meshRef} args={[undefined, undefined, NODE_COUNT]} frustumCulled={false}>
+        <sphereGeometry args={[0.019, 14, 14]} />
+        <meshBasicMaterial color={COLOR.node} />
+      </instancedMesh>
+      <instancedMesh ref={haloRef} args={[undefined, undefined, NODE_COUNT]} frustumCulled={false}>
+        <sphereGeometry args={[0.019, 12, 12]} />
+        <meshBasicMaterial color={COLOR.halo} transparent opacity={0} depthWrite={false} />
+      </instancedMesh>
     </group>
   );
+}
+
+/** Paper sphere, graticule, and the travelling agents. This is what rotates. */
+function Globe() {
+  const ref = useRef<THREE.Group>(null);
+  useFrame((_, delta) => {
+    if (ref.current) ref.current.rotation.y += delta * IDLE_SPEED;
+  });
+  return (
+    <group ref={ref}>
+      <mesh>
+        <sphereGeometry args={[R, 48, 48]} />
+        <meshStandardMaterial color={COLOR.sphere} roughness={1} metalness={0} />
+      </mesh>
+      <Graticule />
+      <AgentNodes />
+    </group>
+  );
+}
+
+/**
+ * The governed line and the silhouette. Neither rotates: the work turns past the line.
+ * The line is drawn clear of the surface so it is always legible.
+ */
+function GovernedLine() {
+  const { prime, silhouette } = useMemo(() => {
+    // Runs almost pole to pole and hugs the surface, so it reads as a meridian on the
+    // sphere rather than a rule drawn over it.
+    const primeLimit = THREE.MathUtils.degToRad(88);
+    const primeRadius = R * 1.016;
+    const primePoints: THREE.Vector3[] = [];
+    for (let i = 0; i <= SEGMENTS; i += 1) {
+      const lat = -primeLimit + (i / SEGMENTS) * (primeLimit * 2);
+      primePoints.push(
+        new THREE.Vector3(0, primeRadius * Math.sin(lat), primeRadius * Math.cos(lat)),
+      );
+    }
+    const ringPoints: THREE.Vector3[] = [];
+    for (let i = 0; i <= SEGMENTS * 2; i += 1) {
+      const a = (i / (SEGMENTS * 2)) * Math.PI * 2;
+      ringPoints.push(new THREE.Vector3(R * Math.cos(a), R * Math.sin(a), 0));
+    }
+    return { prime: toGeometry(primePoints), silhouette: toGeometry(ringPoints) };
+  }, []);
+
+  return (
+    <>
+      <line>
+        <primitive object={silhouette} attach="geometry" />
+        <lineBasicMaterial attach="material" color={COLOR.rim} transparent opacity={0.9} />
+      </line>
+      <line>
+        <primitive object={prime} attach="geometry" />
+        <lineBasicMaterial attach="material" color={COLOR.prime} transparent opacity={0.95} />
+      </line>
+    </>
+  );
+}
+
+/** Holds the axial tilt and the pointer parallax. */
+function Rig({ interactive, children }: { interactive: boolean; children: React.ReactNode }) {
+  const ref = useRef<THREE.Group>(null);
+  useFrame((state) => {
+    const group = ref.current;
+    if (!group) return;
+    const max = THREE.MathUtils.degToRad(4);
+    const targetX = interactive ? TILT + state.pointer.y * max : TILT;
+    const targetZ = interactive ? state.pointer.x * max : 0;
+    group.rotation.x = THREE.MathUtils.lerp(group.rotation.x, targetX, 0.06);
+    group.rotation.z = THREE.MathUtils.lerp(group.rotation.z, targetZ, 0.06);
+  });
+  return <group ref={ref}>{children}</group>;
 }
 
 export interface MeridianSceneProps {
@@ -188,19 +265,21 @@ export default function MeridianScene({ interactive = true, onReady }: MeridianS
       className="size-full"
       dpr={[1, 2]}
       gl={{ alpha: true, antialias: true, powerPreference: "low-power" }}
-      camera={{ fov: 32, position: [0, 0.12, 5.6] }}
+      camera={{ fov: 32, position: [0, 0.05, 5.7] }}
       onCreated={({ gl, camera }) => {
         gl.setClearAlpha(0);
         camera.lookAt(0, 0, 0);
         onReady?.();
       }}
     >
-      <ambientLight intensity={1.9} />
-      <hemisphereLight args={[COLOR.sky, COLOR.ground, 2.2]} />
-      <directionalLight position={[3, 4, 5]} intensity={1.6} />
-      <group rotation={[TILT, 0, 0]}>
-        <Globe interactive={interactive} />
-      </group>
+      <ambientLight intensity={2.9} />
+      <hemisphereLight args={[COLOR.sky, COLOR.ground, 2.4]} />
+      <directionalLight position={[2, 3, 4]} intensity={0.8} />
+      <Rig interactive={interactive}>
+        <Globe />
+      </Rig>
+      {/* Outside the rig: the governed line and the silhouette stay fixed in frame. */}
+      <GovernedLine />
     </Canvas>
   );
 }
