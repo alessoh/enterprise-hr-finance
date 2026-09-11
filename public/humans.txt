@@ -1,0 +1,13 @@
+/* TEAM */
+Company: Meridian Systems, Inc. (fictional design-partner demo)
+Product: Meridian, AI agents that run HR and finance
+Site: https://enterprise-hr-finance.vercel.app
+Contact: hello@meridian.example
+
+/* SITE */
+Last update: 2026-09-10
+Language: English
+Standards: HTML5, CSS, WAI-ARIA, Schema.org JSON-LD, RSS 2.0, llms.txt, RFC 9116 security.txt
+Components: Next.js 16, React 19, TypeScript, Tailwind CSS v4, Three.js, Geist
+Hosting: Vercel
+Machine-readable: /llms.txt, /llms-full.txt, /feed.xml, /sitemap.xml

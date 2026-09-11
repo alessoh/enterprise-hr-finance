@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1000" height="1000" role="img" aria-labelledby="t d">
+  <title id="t">The Meridian</title>
+  <desc id="d">A paper-colored globe drawn only in meridians, tilted 23.4 degrees. The prime meridian is drawn in blue; twelve small nodes sit on the other meridians.</desc>
+  <defs>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="60"/>
+    </filter>
+  </defs>
+  <circle cx="500" cy="520" r="351.5" fill="#e7f1fe" opacity="0.5" filter="url(#glow)"/>
+  <g transform="rotate(23.4 500 500)">
+    <circle cx="500" cy="500" r="370" fill="#f9f7f4" stroke="#cdcac5" stroke-width="1.5"/>
+    <g fill="none" stroke="#1c1712" stroke-opacity="0.28" stroke-width="1.25">
+      <path d="M500 130A357.39 370 0 0 1 500 870"/>
+      <path d="M500 130A320.43 370 0 0 1 500 870"/>
+      <path d="M500 130A261.63 370 0 0 1 500 870"/>
+      <path d="M500 130A185 370 0 0 1 500 870"/>
+      <path d="M500 130A95.76 370 0 0 1 500 870"/>
+      <path d="M500 130A95.76 370 0 0 0 500 870"/>
+      <path d="M500 130A185 370 0 0 0 500 870"/>
+      <path d="M500 130A261.63 370 0 0 0 500 870"/>
+      <path d="M500 130A320.43 370 0 0 0 500 870"/>
+      <path d="M500 130A357.39 370 0 0 0 500 870"/>
+    </g>
+    <path d="M500 130V870" fill="none" stroke="#1f5390" stroke-width="1.75" stroke-linecap="round"/>
+    <g>
+      <circle cx="765.59" cy="252.42" r="6.8" fill="#1f5390" stroke="#fefdfc" stroke-width="2.5"/>
+      <circle cx="782.92" cy="673.7" r="6.8" fill="#1f5390" stroke="#fefdfc" stroke-width="2.5"/>
+      <circle cx="748.82" cy="385.66" r="6.8" fill="#1f5390" stroke="#fefdfc" stroke-width="2.5"/>
+      <circle cx="618.92" cy="783.44" r="6.8" fill="#1f5390" stroke="#fefdfc" stroke-width="2.5"/>
+      <circle cx="553.55" cy="193.26" r="6.8" fill="#1f5390" stroke="#fefdfc" stroke-width="2.5"/>
+      <circle cx="500" cy="538.68" r="6.8" fill="#1f5390" stroke="#fefdfc" stroke-width="2.5"/>
+      <circle cx="418.79" cy="303.93" r="6.8" fill="#1f5390" stroke="#fefdfc" stroke-width="2.5"/>
+      <circle cx="407.5" cy="820.43" r="6.8" fill="#1f5390" stroke="#fefdfc" stroke-width="2.5"/>
+      <circle cx="240.92" cy="448.51" r="6.8" fill="#1f5390" stroke="#fefdfc" stroke-width="2.5"/>
+      <circle cx="294.03" cy="216.56" r="6.8" fill="#1f5390" stroke="#fefdfc" stroke-width="2.5"/>
+      <circle cx="196.91" cy="696.07" r="6.8" fill="#1f5390" stroke="#fefdfc" stroke-width="2.5"/>
+      <circle cx="580.85" cy="851.89" r="6.8" fill="#1f5390" stroke="#fefdfc" stroke-width="2.5"/>
+    </g>
+  </g>
+</svg>

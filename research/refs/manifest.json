@@ -1,0 +1,72 @@
+{
+  "_meta": {
+    "purpose": "Blind side-by-side reference set for the Meridian gauntlet (light-mode enterprise SaaS / AI-agent sites).",
+    "captured": "2026-09-10",
+    "viewports": { "fold": "1440x900", "full": "1440 full-page", "mobile": "390x844" },
+    "rules": "Light-mode captures preferred. Every file verified present, > 30KB, and visually inspected (not blank, not cookie-walled). Excluded on purpose: linear (dark theme), rippling home (dark plum + chat popup), writer home (black), deel home (cookie wall), glean (Osano cookie wall on every page), sana (blocked capture), workday security/customers (broken captures), mercury home-full (scroll-driven sections do not paint), stripe security (actually the dark enterprise page)."
+  },
+  "hero": [
+    { "site": "stripe", "path": "research/refs/stripe/home-fold.png", "why": "Left-aligned 2-col hero: live eyebrow counter, 6-word H1 with two-tone run-in sentence, filled + outline CTA pair, WebGL ribbon bleeding off-canvas, logo bar at the fold line." },
+    { "site": "attio", "path": "research/refs/attio/home-fold.png", "why": "Centered hero, 4-word H1 at 64px, one-line grey sub, outline + black CTA pair, full-width product window with the agent prompt. Calmest black/white/hairline system in the set." },
+    { "site": "ramp", "path": "research/refs/ramp/home-fold.png", "why": "Small-caps live eyebrow, 5-word declarative H1, email + lime CTA, product card on dotted grid, sticky bottom 'AGENTS AT WORK TODAY' ticker with live counters." },
+    { "site": "personio", "path": "research/refs/personio/home-fold.png", "why": "Textbook hierarchy: G2 eyebrow, 4-word 72px H1, one-line sub, single email form, proof ticker, category pills switching a large product UI. HR buyer context." },
+    { "site": "brex", "path": "research/refs/brex/home-fold.png", "why": "Two-col hero with 5-word H1, one-line sub, inline email form, 'See in action' text link; 3D product still with the card + phone. One orange accent." },
+    { "site": "harvey", "path": "research/refs/harvey/home-fold.png", "why": "Serif display H1 (4 words, 2 lines) paired with a sans sub and single black CTA on the right; full-width product dashboard framed in a textured panel. Premium enterprise-AI tone." },
+    { "site": "anthropic", "path": "research/refs/anthropic/home-fold.png", "why": "Editorial hero on warm paper: oversized sans H1 with underlined words, serif mission paragraph, no CTA; one full-width photo card. Restraint benchmark." }
+  ],
+  "home-full": [
+    { "site": "stripe", "path": "research/refs/stripe/home-full.png", "why": "Full funnel sequence: hero, logos, product-UI bento, stats band, segmented customer stories with metrics, developer band, integration paths, closing split CTA, mega footer." },
+    { "site": "attio", "path": "research/refs/attio/home-full.png", "why": "Hero, logos, 5-tab product tour, dark feature band, integrations row, single large quote, 4 stats, logos + photo, changelog, footer. Hairline and dotted-grid discipline throughout." },
+    { "site": "ramp", "path": "research/refs/ramp/home-full.png", "why": "Agents-for-every-workflow bento, alternating story blocks that name the agent that did the work, testimonial wall, closing CTA. Live numbers everywhere." },
+    { "site": "personio", "path": "research/refs/personio/home-full.png", "why": "HR platform sequence with tabs by company size, compliance band, AI assistant section, inline pricing, implementation timeline. Closest buyer to Meridian's HR side." },
+    { "site": "brex", "path": "research/refs/brex/home-full.png", "why": "Finance platform sequence: product pillars, controls story, customer proof, closing CTA. Single accent, product UI as proof." },
+    { "site": "anthropic", "path": "research/refs/anthropic/home-full.png", "why": "Short (3 screens) editorial page: hero, feature card, 3 release cards with DATE / CATEGORY meta rows, mission + link list, black footer. Benchmark for brevity." },
+    { "site": "sierra", "path": "research/refs/sierra/home-full.png", "why": "AI-agent vendor sequence: cinematic hero, logo grid, outcome cards (Pay for a job well done), quote cards, agent-building agent, trust badge row, CTA." }
+  ],
+  "pricing": [
+    { "site": "attio", "path": "research/refs/attio/pricing-fold.png", "why": "Four cards with the recommended tier ringed, Monthly/Annual segmented toggle, Save 20% chips, per-card 3 bullets + CTA; comparison table below opens with a Credits block (closest analogue to Meridian credits)." },
+    { "site": "stripe", "path": "research/refs/stripe/pricing-fold.png", "why": "Two-card Standard (white, take-rate) vs Custom (dark navy, negotiated) on hairline guide columns, then a sticky in-page tab bar (Standard / Custom / FAQs)." },
+    { "site": "ramp", "path": "research/refs/ramp/pricing-fold.png", "why": "Three cards with tab-style labels above them (AI-assisted / AI-powered / AI-tailored), middle card ringed in lime, per-card email field + CTA, then grouped feature lists." },
+    { "site": "mercury", "path": "research/refs/mercury/pricing-fold.png", "why": "Single bordered COMPARE PLANS container with an Annual (15% off) toggle, three columns, filled button only on the entry tier, Jump-to-section links, 'Everything in X, plus' lists." },
+    { "site": "brex", "path": "research/refs/brex/pricing-fold.png", "why": "Centered 2-line H1, logo row as trust, three white cards on grey canvas with per-user price, full-width orange CTA, 'Everything in X plus' check lists." },
+    { "site": "vercel", "path": "research/refs/vercel/pricing-fold.png", "why": "Left-aligned 2-line H1 'Scale your app, control your costs'; three hairline-divided columns, huge price numerals, 'Popular' chip, usage credit named as a line item, icon check lists, pill CTAs." },
+    { "site": "anthropic", "path": "research/refs/anthropic/pricing-fold.png", "why": "Serif 'Pricing' title, 3-segment control (Individual / Team & Enterprise / API), three cards with line-art glyphs, black full-width CTAs. Warm palette." }
+  ],
+  "product": [
+    { "site": "stripe", "path": "research/refs/stripe/product-fold.png", "why": "Product page template: breadcrumb + in-page tab bar (Overview / Features / ... / Docs), pill announcement, 3-line H1, sub, filled CTA + text link, real product UI on the right." },
+    { "site": "brex", "path": "research/refs/brex/product-fold.png", "why": "Mono caps eyebrow, centered H1 with one italic word, one-line sub, inline email form, large product UI in a laptop frame with a phone overlay." },
+    { "site": "mercury", "path": "research/refs/mercury/product-fold.png", "why": "Centered H1 + sub + email form + Contact sales, product dashboard in a soft gradient mat; the regulatory disclosure as a floating pill." },
+    { "site": "ramp", "path": "research/refs/ramp/product-fold.png", "why": "Agent product page: small eyebrow 'Ramp Intelligence', 5-word H1 'Meet your next million hires.', one-line sub, email + CTA on a particle field." },
+    { "site": "sierra", "path": "research/refs/sierra/product-fold.png", "why": "Agent product page with the simplest possible header: product name + grey one-line descriptor, then a single giant rounded media card with a prompt UI." },
+    { "site": "vercel", "path": "research/refs/vercel/product-fold.png", "why": "Grid-paper canvas with crosshair corners, speech-bubble H1 block, two-tone sentence headline, pill CTA, then feature rows in hairline cells." },
+    { "site": "workday", "path": "research/refs/workday/product-fold.png", "why": "Agent System of Record page: product sub-nav (Overview / Agents / Pricing / Responsible AI), caps eyebrow, H1 'People and agents working hand in hand.', video with play, Play Demo + Read Blog." }
+  ],
+  "security": [
+    { "site": "anthropic", "path": "research/refs/anthropic/security-fold.png", "why": "Real trust center: terracotta banner, tabs (Overview / Resources / Subprocessors / FAQ / Updates), compliance matrix by product (SOC 2, ISO 27001, ISO 42001, CSA STAR, HIPAA, NIST 800-171, FedRAMP, IL4/5), Request access." },
+    { "site": "attio", "path": "research/refs/attio/security-fold.png", "why": "Trust center with black header band, tabs, Compliance badge list (ISO 27001, GDPR, CCPA) beside Controls cards that list concrete controls with 'View N more' links." },
+    { "site": "harvey", "path": "research/refs/harvey/security-fold.png", "why": "Serif H1 'For the Most Sensitive Matters', short sub, 'Explore Security Portal' CTA, then 3 icon columns: Purpose-Built Security / Data Sovereignty and Control / No Model Training." },
+    { "site": "vercel", "path": "research/refs/vercel/security-fold.png", "why": "Grid-cell layout: right-aligned H1 'Security that scales with you.', one CTA, three feature cells with icons, 'Trusted by security teams' band." },
+    { "site": "ramp", "path": "research/refs/ramp/security-fold.png", "why": "'Peace of mind at every step' + SSO tiles (Google / Okta / Azure) on beige panels; security explained through product, not badges." },
+    { "site": "personio", "path": "research/refs/personio/security-fold.png", "why": "Caps eyebrow SECURITY AND TRUST, H1 'Personio Trust Center', two-paragraph intro, one CTA, photo; then 'Learn about security guidelines' section." },
+    { "site": "writer", "path": "research/refs/writer/security-fold.png", "why": "Centered serif H1 with TRUST eyebrow, sub naming security / privacy / compliance / centralized supervision, Contact us + Visit Trust Center pair, logo row." }
+  ],
+  "customers": [
+    { "site": "anthropic", "path": "research/refs/anthropic/customers-fold.png", "why": "Serif H1 'Meet the teams building what's next', left filter rail (Sort / Industry / Product / Size / Partner / Geography), story search, grid/list toggle, logo tiles with outcome-style titles." },
+    { "site": "stripe", "path": "research/refs/stripe/customers-fold.png", "why": "Left text column + masonry of brand-tinted story cards (Read story / Watch video), in-page tabs Overview / All customer stories, hairline guide columns." },
+    { "site": "ramp", "path": "research/refs/ramp/customers-fold.png", "why": "'Customer Stories' as full-width display type, 70,000+ logo marquee, then large photo/video story cards with outcome titles." },
+    { "site": "harvey", "path": "research/refs/harvey/customers-fold.png", "why": "Serif H1 'Built for High Stakes Work', one proof sentence with three numbers, logo row, 3-col photo cards with logo overlay and outcome title." },
+    { "site": "vercel", "path": "research/refs/vercel/customers-fold.png", "why": "Left-aligned 'Customer stories', two black-and-white video cards with one-sentence outcome captions, carousel progress bar." },
+    { "site": "writer", "path": "research/refs/writer/customers-fold.png", "why": "CUSTOMERS eyebrow, serif H1 with an italic word, demo CTA, hero video card + tinted logo card, logo row, filter pills (Industry / Department / Use case / Feature), tinted case-study cards." },
+    { "site": "attio", "path": "research/refs/attio/customers-fold.png", "why": "Pill eyebrow, centered 2-line H1, one-line sub, dotted-grid hairline panel, then a 2-row logo grid. Minimal template." }
+  ],
+  "mobile": [
+    { "site": "stripe", "path": "research/refs/stripe/home-mobile-fold.png", "why": "390px: wordmark + purple hamburger, eyebrow counter, 2-line H1, stacked full-width CTAs, ribbon still visible, logo strip." },
+    { "site": "attio", "path": "research/refs/attio/home-mobile-fold.png", "why": "390px: announcement bar, hamburger, pill badge, 2-line H1, sub, email field + full-width black CTA, 'Talk to sales' text link, product window." },
+    { "site": "ramp", "path": "research/refs/ramp/home-mobile-fold.png", "why": "390px: eyebrow counter, 2-line H1, sub, stacked email + lime CTA, product card, sticky bottom ticker survives at mobile width." },
+    { "site": "personio", "path": "research/refs/personio/home-mobile-fold.png", "why": "390px: nav collapses to wordmark + demo pill + hamburger; centered H1, sub, stacked form, category pills wrap to 3 rows, product UI below." },
+    { "site": "brex", "path": "research/refs/brex/home-mobile-fold.png", "why": "390px: hamburger-left nav with orange CTA, 2-line H1, sub, inline email form, text link, 3D still cropped, 'Trusted by 35,000+' band." },
+    { "site": "harvey", "path": "research/refs/harvey/home-mobile-fold.png", "why": "390px: serif 3-line H1, sub, single black CTA, product dashboard card; generous whitespace." },
+    { "site": "anthropic", "path": "research/refs/anthropic/home-mobile-fold.png", "why": "390px: oversized sans H1 stacked over serif paragraph, rounded photo card; type-only fold." }
+  ],
+  "article": []
+}

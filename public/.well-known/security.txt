@@ -1,0 +1,7 @@
+# Meridian security contact (RFC 9116)
+Contact: mailto:security@meridian.example
+Contact: https://enterprise-hr-finance.vercel.app/contact
+Expires: 2027-09-01T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://enterprise-hr-finance.vercel.app/.well-known/security.txt
+Policy: https://enterprise-hr-finance.vercel.app/security
