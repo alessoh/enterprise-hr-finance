@@ -5,17 +5,19 @@ import { Container } from "@/components/ui/container";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { Reveal } from "@/components/ui/reveal";
 import { homeCopy } from "@/content/home";
+import { getHeroApprovals } from "@/lib/live/generator";
 
-import { HeroMeridian } from "@/components/three/hero-meridian";
 import { LogoWall } from "@/components/ui/logo-wall";
 
-import { HeroCheckpoint } from "./hero-checkpoint";
+import { HeroVisual } from "./hero-visual";
 
 /** Trust line per DESIGN.md §8 (Home hero). Not an outcome figure, so no footnote. */
 const trustLine = ["SOC 2 Type II", "ISO 27001", "No training on your data"];
 
 export function Hero() {
   const { hero } = homeCopy;
+  // Computed on the server so the first paint is stable; the client only cycles the index.
+  const heroEvents = getHeroApprovals();
   return (
     <section
       aria-labelledby="hero-heading"
@@ -57,12 +59,7 @@ export function Hero() {
           {/* Read top to bottom: work turns past the governed line, and lands here for a
               person to decide. The card is centred on the line rather than cropping the
               globe at an arbitrary point. */}
-          <div className="mx-auto flex w-full max-w-[340px] flex-col items-center lg:max-w-[460px]">
-            <HeroMeridian className="w-full" />
-            <div className="-mt-10 w-full max-w-[21rem] lg:-mt-14">
-              <HeroCheckpoint />
-            </div>
-          </div>
+          <HeroVisual events={heroEvents} className="max-w-[340px] lg:max-w-[460px]" />
         </div>
       </Container>
       <Container className="mt-10 lg:mt-12">

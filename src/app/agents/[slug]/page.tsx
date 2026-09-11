@@ -162,23 +162,29 @@ export default async function AgentPage({ params }: { params: Params }) {
                 out-weigh the uncontained column beside it. justify-between with a
                 floor gap keeps the two blocks at the panel's top and bottom edges
                 whatever the row height, so no slack collects under the divider. */}
+            {/* Same anatomy as "At a glance" on /agents and "Security at a glance" on
+                /security: a hairline panel with a ruled head, so the three read as one
+                component across the site. */}
             <aside
-              className="flex flex-col justify-between gap-8 rounded-xl bg-bg-subtle p-7 ring-1 ring-border lg:col-span-5 lg:p-8"
+              className="flex flex-col overflow-hidden rounded-xl bg-bg-elevated ring-1 ring-border lg:col-span-5"
               aria-label="Headline outcome"
             >
-              <div>
-                <p className="eyebrow">Headline outcome</p>
+              <p className="eyebrow border-b border-border bg-bg-subtle px-6 py-3 lg:px-7">
+                Headline outcome
+              </p>
+              <div className="flex flex-1 flex-col justify-between gap-8 px-6 py-7 lg:px-7 lg:py-8">
                 <Stat
-                  className="mt-6"
                   value={headline.value}
                   unit={headline.unit}
                   label={agent.headlineMetric.label}
                   footnote={agent.headlineMetric.footnote ? 1 : undefined}
                 />
-              </div>
-              <div className="border-t border-border pt-6">
-                <p className="eyebrow">The job</p>
-                <p className="mt-3 text-[0.9375rem] leading-relaxed text-fg text-pretty">{agent.jobToBeDone}</p>
+                <div className="border-t border-border pt-6">
+                  <p className="eyebrow">The job</p>
+                  <p className="mt-3 text-[0.9375rem] leading-relaxed text-fg text-pretty">
+                    {agent.jobToBeDone}
+                  </p>
+                </div>
               </div>
             </aside>
           </div>

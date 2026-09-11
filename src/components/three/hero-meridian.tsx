@@ -34,6 +34,8 @@ function idle(callback: () => void): () => void {
 
 export interface HeroMeridianProps {
   className?: string;
+  /** Fires with the agent index each time a node passes the governed line. */
+  onCross?: (agentIndex: number) => void;
 }
 
 /**
@@ -42,7 +44,7 @@ export interface HeroMeridianProps {
  * in view, then fades in over its first frame. Rendering pauses offscreen and when the
  * tab is hidden. Reduced motion, small screens, and missing WebGL all keep the poster.
  */
-export function HeroMeridian({ className }: HeroMeridianProps) {
+export function HeroMeridian({ className, onCross }: HeroMeridianProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [mount, setMount] = useState(false);
   const [ready, setReady] = useState(false);
@@ -115,7 +117,11 @@ export function HeroMeridian({ className }: HeroMeridianProps) {
           )}
         >
           {active || ready ? (
-            <MeridianScene interactive={interactive && active} onReady={() => setReady(true)} />
+            <MeridianScene
+              interactive={interactive && active}
+              onReady={() => setReady(true)}
+              onCross={onCross}
+            />
           ) : null}
         </div>
       ) : null}

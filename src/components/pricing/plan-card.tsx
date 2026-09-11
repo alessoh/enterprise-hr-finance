@@ -47,7 +47,9 @@ export function PlanCard({ plan, interval }: PlanCardProps) {
     ? "Custom credit pools and terms"
     : interval === "annual"
       ? `per month, billed annually at ${formatCurrency(price * 12)} a year`
-      : "per month, billed monthly";
+      // Monthly needs no caption: "/mo" beside the figure already says it, and
+      // "per month, billed monthly" says the same thing a second time.
+      : null;
 
   const limits: { label: string; value: string }[] = [
     { label: "Agents", value: plan.limits.agents },
@@ -63,7 +65,9 @@ export function PlanCard({ plan, interval }: PlanCardProps) {
       aria-labelledby={headingId}
       className={cn(
         "relative flex h-full scroll-mt-28 flex-col rounded-lg border bg-bg-elevated p-6 lg:p-7",
-        highlighted ? "border-border-strong shadow-sm max-lg:order-first" : "border-border",
+        highlighted
+          ? "border-fg/15 bg-bg-subtle shadow-md max-lg:order-first"
+          : "border-border",
       )}
     >
       <header>
@@ -78,7 +82,9 @@ export function PlanCard({ plan, interval }: PlanCardProps) {
 
       <div className="mt-7">
         {custom ? (
-          <p className="text-[2.75rem] leading-none font-medium tracking-[-0.03em] text-fg">Custom</p>
+          // Set a step down from the numerals: at the same point size a word of letters
+          // reads optically larger than "$2,499", so the three prices stop matching.
+          <p className="text-[2.25rem] leading-none font-medium tracking-[-0.025em] text-fg">Custom</p>
         ) : (
           <p className="flex items-baseline gap-1 text-fg">
             <span className="tabular text-[2.75rem] leading-none font-medium tracking-[-0.03em]">
@@ -87,7 +93,11 @@ export function PlanCard({ plan, interval }: PlanCardProps) {
             <span className="text-base font-medium text-fg-muted">/mo</span>
           </p>
         )}
-        <p className="tabular mt-2.5 text-[0.8125rem] leading-snug text-fg-subtle">{caption}</p>
+        {/* The row is always present, even when empty, so the divider below sits on the
+            same baseline in all three cards whichever billing interval is selected. */}
+        <p className="tabular mt-2.5 min-h-[2.5rem] text-[0.8125rem] leading-snug text-fg-subtle">
+          {caption}
+        </p>
       </div>
 
       <div className="mt-6 border-t border-border pt-5">

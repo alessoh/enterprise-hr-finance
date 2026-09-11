@@ -34,10 +34,13 @@ export function ResourcesSearch({ query, category, className }: ResourcesSearchP
           className="h-full min-w-0 flex-1 bg-transparent px-2.5 text-sm text-fg outline-none placeholder:text-fg-subtle [&::-webkit-search-cancel-button]:appearance-none"
         />
         {category ? <input type="hidden" name="category" value={category} /> : null}
+        {/* Secondary, not ink: black is reserved for the active facet directly below,
+            and two solid primaries in adjacent rows read as competing calls to action. */}
         <Button
           type="submit"
           size="sm"
-          className="mr-1 rounded-sm focus-visible:bg-fg/88 focus-visible:outline-none"
+          variant="secondary"
+          className="mr-1 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-ring"
         >
           Search
         </Button>

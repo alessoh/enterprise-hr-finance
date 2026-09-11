@@ -410,3 +410,22 @@ export function getLiveSnapshotNow(): LiveSnapshot {
 export function getDashboardDataNow(): DashboardData {
   return getDashboardData(Date.now());
 }
+
+/**
+ * Server-only: a short rotation of approval-worthy events for the home hero. Each is
+ * something an agent did that a person still has to decide, which is the claim the hero
+ * object is making.
+ */
+export function getHeroApprovals(count = 6): AgentEvent[] {
+  const start = currentTick(Date.now());
+  const picked: AgentEvent[] = [];
+  for (let i = 0; i < 400 && picked.length < count; i += 1) {
+    const event = eventAtTick(start - i);
+    if (!event.needsApproval) continue;
+    if (picked.some((p) => p.title === event.title)) continue;
+    picked.push(event);
+  }
+  // Fall back to the plain feed if the window happened to hold too few approvals.
+  for (let i = 0; picked.length < count && i < 40; i += 1) picked.push(eventAtTick(start - i));
+  return picked.slice(0, count);
+}

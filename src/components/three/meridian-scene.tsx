@@ -108,7 +108,7 @@ const NODES: NodeConfig[] = Array.from({ length: NODE_COUNT }, (_, i) => ({
  * Twelve agents. Each travels its own latitude; when it passes the governed line at the
  * front of the frame it pulses once. Work crossed the line and was checked.
  */
-function AgentNodes() {
+function AgentNodes({ onCross }: { onCross?: (agentIndex: number) => void }) {
   const groupRef = useRef<THREE.Group>(null);
   const meshRef = useRef<THREE.InstancedMesh>(null);
   const haloRef = useRef<THREE.InstancedMesh>(null);
@@ -145,7 +145,10 @@ function AgentNodes() {
       // The governed line is fixed at the front of the frame: world x near 0, z positive.
       world.copy(dummy.position).applyMatrix4(group.matrixWorld);
       const near = Math.abs(world.x) < 0.05 && world.z > 0;
-      if (near && !wasNear.current[i]) pulses.current[i] = t;
+      if (near && !wasNear.current[i]) {
+        pulses.current[i] = t;
+        onCross?.(i);
+      }
       wasNear.current[i] = near;
 
       const since = (t - pulses.current[i]) * 1000;
@@ -181,7 +184,7 @@ function AgentNodes() {
 }
 
 /** Paper sphere, graticule, and the travelling agents. This is what rotates. */
-function Globe() {
+function Globe({ onCross }: { onCross?: (agentIndex: number) => void }) {
   const ref = useRef<THREE.Group>(null);
   useFrame((_, delta) => {
     if (ref.current) ref.current.rotation.y += delta * IDLE_SPEED;
@@ -193,7 +196,7 @@ function Globe() {
         <meshStandardMaterial color={COLOR.sphere} roughness={1} metalness={0} />
       </mesh>
       <Graticule />
-      <AgentNodes />
+      <AgentNodes onCross={onCross} />
     </group>
   );
 }
@@ -256,9 +259,11 @@ export interface MeridianSceneProps {
   /** Pointer parallax; off on touch devices. */
   interactive?: boolean;
   onReady?: () => void;
+  /** Fires with the agent index each time a node passes the governed line. */
+  onCross?: (agentIndex: number) => void;
 }
 
-export default function MeridianScene({ interactive = true, onReady }: MeridianSceneProps) {
+export default function MeridianScene({ interactive = true, onReady, onCross }: MeridianSceneProps) {
   return (
     <Canvas
       aria-hidden
@@ -276,7 +281,7 @@ export default function MeridianScene({ interactive = true, onReady }: MeridianS
       <hemisphereLight args={[COLOR.sky, COLOR.ground, 2.4]} />
       <directionalLight position={[2, 3, 4]} intensity={0.8} />
       <Rig interactive={interactive}>
-        <Globe />
+        <Globe onCross={onCross} />
       </Rig>
       {/* Outside the rig: the governed line and the silhouette stay fixed in frame. */}
       <GovernedLine />
