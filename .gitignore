@@ -28,3 +28,7 @@ next-env.d.ts
 
 # gauntlet artifacts
 /gauntlet/
+
+# Third-party reference screenshots used only by the local design gauntlet.
+# Kept out of the repo: they are other companies' copyrighted page designs.
+research/refs/
