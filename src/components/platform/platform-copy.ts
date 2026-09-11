@@ -8,7 +8,9 @@ import type { Faq } from "@/content/types";
 
 export const platformOverview = {
   title: "The layer under the agents.",
-  lede: "Meridian's platform is the governed layer under every agent you run. Registry is the system of record, Gateway connects any agent through open standards, Data Fabric reads your data in place, Studio builds your own, Assist is the front door, and Trust bounds all of it.",
+  lede: "One governed layer under every agent you run, whether Meridian built it, a partner built it, or your own team did.",
+  /** The six parts, in the order the architecture diagram stacks them. */
+  parts: ["assist", "registry", "studio", "gateway", "data-fabric", "trust"],
   seo: {
     title: "Platform: Registry, Gateway, Data Fabric, Studio, Assist",
     description:

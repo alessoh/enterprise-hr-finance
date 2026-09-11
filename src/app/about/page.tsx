@@ -158,11 +158,13 @@ export default function AboutPage() {
                 at a person for anything consequential.
               </p>
             </div>
+            {/* Rows share a fixed height: "New York, London, Dublin" wraps to two lines
+                and was pushing its cell out of line with its neighbour. */}
             <dl className="grid grid-cols-2 gap-x-8 gap-y-6 self-end lg:col-span-4 lg:col-start-9">
               {facts.map((fact) => (
-                <div key={fact.label}>
+                <div key={fact.label} className="flex min-h-[4.25rem] flex-col">
                   <dt className="eyebrow">{fact.label}</dt>
-                  <dd className="mt-2 text-sm text-fg">{fact.value}</dd>
+                  <dd className="mt-2 text-sm text-balance text-fg">{fact.value}</dd>
                 </div>
               ))}
             </dl>

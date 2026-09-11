@@ -26,11 +26,13 @@ export function ContractStrip({ withLink = true, className, ...props }: Contract
             </ArrowLink>
           ) : null}
         </div>
-        <ol className="grid flex-1 grid-cols-2 gap-x-6 gap-y-3 lg:grid-cols-3">
+        {/* One column below sm: at 390px two columns break the longer tenets into
+            four ragged lines with an orphan on the last. */}
+        <ol className="grid flex-1 grid-cols-1 gap-x-6 gap-y-3 sm:grid-cols-2 lg:grid-cols-3">
           {agentContract.map((tenet, index) => (
             <li key={tenet} className="flex items-baseline gap-2.5 text-sm text-fg">
               <span className="tabular shrink-0 font-mono text-xs text-fg-subtle">{pad(index + 1)}</span>
-              <span>{tenet}</span>
+              <span className="text-pretty">{tenet}</span>
             </li>
           ))}
         </ol>

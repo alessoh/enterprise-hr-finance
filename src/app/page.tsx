@@ -6,7 +6,6 @@ import { FinalCta } from "@/components/home/final-cta";
 import { Hero } from "@/components/home/hero";
 import { HomeFaq } from "@/components/home/home-faq";
 import { LiveSection } from "@/components/home/live-section";
-import { LogoWallSection } from "@/components/home/logo-wall-section";
 import { PlatformTabs } from "@/components/home/platform-tabs";
 import { PricingTeaser } from "@/components/home/pricing-teaser";
 import { ProofStats } from "@/components/home/proof-stats";
@@ -40,7 +39,6 @@ export default function HomePage() {
         ]}
       />
       <Hero />
-      <LogoWallSection />
       <ProofStats />
       <AgentContract />
       <AgentsCatalog />

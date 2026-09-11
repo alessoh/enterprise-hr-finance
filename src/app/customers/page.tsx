@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { CtaBand } from "@/components/customers/cta-band";
 import { CustomerCard } from "@/components/customers/customer-card";
 import { CustomerGrid } from "@/components/customers/customer-grid";
-import { FeaturedStoryCard } from "@/components/customers/featured-story-card";
+import { StoryTile } from "@/components/customers/story-tile";
 import { partnerFunction } from "@/components/customers/lib";
 import { TestimonialWall } from "@/components/customers/testimonial-wall";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -11,9 +11,8 @@ import { ArrowLink } from "@/components/ui/arrow-link";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import { Container } from "@/components/ui/container";
 import { Eyebrow } from "@/components/ui/eyebrow";
-import { FootnoteRef, Footnotes } from "@/components/ui/footnote";
-import { LogoWall } from "@/components/ui/logo-wall";
-import { RevealGroup, RevealItem } from "@/components/ui/reveal";
+import { Footnotes } from "@/components/ui/footnote";
+import { Reveal } from "@/components/ui/reveal";
 import { Section, SectionHeader } from "@/components/ui/section";
 import { caseStudies, customers, getCaseStudy, getCustomer } from "@/content/customers";
 import { testimonials } from "@/content/testimonials";
@@ -38,17 +37,6 @@ export const metadata: Metadata = createMetadata({
   ],
 });
 
-/**
- * Aggregate proof, shown beside the headline. Every figure is carried by one of the
- * partner stories further down the page, so nothing here is unsupported.
- */
-const HERO_PROOF = [
-  { value: "75%", label: "of HR case volume deflected at Halvorsen Health" },
-  { value: "$283K", label: "duplicate payments avoided a year at Castellan Financial" },
-  { value: "3 days", label: "off the month-end close at Castellan Financial" },
-  { value: "90%", label: "less time to fill a shift at Northwind Logistics" },
-] as const;
-
 /** Six quotes for the wall, in the order the partners appear in the featured stories, then the rest. */
 const QUOTE_COMPANIES = [
   "Halvorsen Health",
@@ -59,11 +47,26 @@ const QUOTE_COMPANIES = [
   "Atlas Manufacturing",
 ];
 
+/** What every published story contains, in the order the story tells it. */
+const STORY_CONTENTS = [
+  { term: "Challenge", description: "The starting point, with the numbers behind it." },
+  { term: "Approach", description: "What was deployed, phase by phase, and who approved what." },
+  { term: "Results", description: "What the partner measured, and the agents it runs today." },
+] as const;
+
+/** Counted from the content, not asserted: the scope of the programme, no outcome claims. */
+const SCOPE = [
+  { value: String(customers.length), label: "design partners" },
+  { value: String(new Set(customers.flatMap((c) => c.agentSlugs)).size), label: "agents in production" },
+  { value: String(caseStudies.length), label: "published stories" },
+] as const;
+
 export default function CustomersPage() {
   const featured = caseStudies.flatMap((study) => {
     const customer = getCustomer(study.customerSlug);
     return customer ? [{ study, customer }] : [];
   });
+  const [lead, ...others] = featured;
 
   const gridItems = customers.map((customer) => ({
     slug: customer.slug,
@@ -99,80 +102,83 @@ export default function CustomersPage() {
         ]}
       />
 
-      {/* 1. Hero + logo wall */}
+      {/* 1. Hero and the three published case studies, on one grid.
+          The headline holds columns 1-7 of the first row; the story rail holds 8-12 and
+          continues under the headline, so the lead story is above the fold and the eye
+          runs headline -> lead story -> second row. */}
       <Section spacing="none" className="pt-8 pb-20 lg:pt-10 lg:pb-24" aria-labelledby="customers-title">
         <Container>
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Customers" }]} />
-          {/* Proof sits beside the headline, not below the fold: a customers index that
-              shows no numbers above the fold is a brochure. */}
-          <div className="mt-12 grid gap-10 lg:mt-16 lg:grid-cols-12 lg:gap-16">
-            <div className="lg:col-span-7">
+          <div className="mt-10 grid gap-x-16 gap-y-10 lg:mt-14 lg:grid-cols-12 lg:gap-y-12">
+            <div className="flex flex-col lg:col-span-7">
               <Eyebrow>Customers</Eyebrow>
-              <h1 id="customers-title" className="text-h1 mt-5 text-balance">
+              {/* h1, not display: at 72px this headline balances into a four-line rag
+                  whose last line is the longest. 56px sets it in two even lines. */}
+              <h1 id="customers-title" className="text-h1 mt-6 hyphens-none text-balance">
                 Measured outcomes from eight design partners
               </h1>
-              <p className="text-lede mt-6 max-w-[58ch] text-pretty">
+              <p className="text-lede mt-7 max-w-[52ch] text-pretty">
                 Eight enterprises, from a 4,200-person asset manager to a 31,000-person retailer, run governed
                 agents in production HR and finance workflows. Each story reports the agents deployed, the
                 timeline, and the outcomes the partner measured.
               </p>
+              <ArrowLink href="#partners" className="mt-7">
+                See all eight partners
+              </ArrowLink>
+              {/* What a story contains, so the tiles beside this column read as an index
+                  rather than three loose cards. */}
+              <dl className="mt-12 hidden divide-y divide-border border-t border-border lg:block">
+                {STORY_CONTENTS.map((item) => (
+                  <div key={item.term} className="grid grid-cols-[7rem_minmax(0,1fr)] gap-4 py-3">
+                    <dt className="text-[0.8125rem] font-medium text-fg">{item.term}</dt>
+                    <dd className="text-[0.8125rem] leading-5 text-fg-muted">{item.description}</dd>
+                  </div>
+                ))}
+              </dl>
+              <dl className="mt-10 grid grid-cols-3 gap-x-6 border-t border-border pt-6 lg:mt-auto lg:pt-7">
+                {SCOPE.map((item, index) => (
+                  <div key={item.label} className={index > 0 ? "border-l border-border pl-6" : undefined}>
+                    <dt className="sr-only">{item.label}</dt>
+                    <dd className="tabular text-[1.75rem] leading-none font-medium tracking-[-0.03em] text-fg">
+                      {item.value}
+                    </dd>
+                    <p className="mt-2.5 max-w-[18ch] text-[0.8125rem] leading-5 text-fg-muted">{item.label}</p>
+                  </div>
+                ))}
+              </dl>
             </div>
-            <dl className="grid grid-cols-2 gap-x-8 gap-y-8 self-end border-t border-border pt-8 lg:col-span-5 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
-              {HERO_PROOF.map((item) => (
-                <div key={item.label}>
-                  <dt className="sr-only">{item.label}</dt>
-                  <dd className="tabular text-[2rem] leading-none font-medium tracking-[-0.03em] text-fg">
-                    {item.value}
-                    <FootnoteRef n={1} />
-                  </dd>
-                  <p className="mt-2.5 max-w-[22ch] text-[0.8125rem] leading-5 text-fg-muted">{item.label}</p>
-                </div>
-              ))}
-            </dl>
-          </div>
-          <div className="mt-14 border-t border-border pt-10 lg:mt-16 lg:pt-12">
-            <LogoWall
-              variant="grid"
-              labelAlign="left"
-              label="Design partners in healthcare, logistics, financial services, retail, energy, food production, manufacturing, and banking"
-            />
-          </div>
-        </Container>
-      </Section>
 
-      {/* 2. Featured case studies */}
-      <Section bordered="top" aria-labelledby="featured-title">
-        <Container>
-          <SectionHeader
-            eyebrow="Case studies"
-            title={<span id="featured-title">Three deployments, week by week</span>}
-            lede="Each case study covers the starting point, the approach by phase, the results the partner measured, and the agents it runs today."
-            actions={<ArrowLink href="#partners">All eight partners</ArrowLink>}
-          />
-          <RevealGroup className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 md:[&>*:last-child]:col-span-2 lg:[&>*:last-child]:col-span-1">
-            {featured.map(({ study, customer }) => (
-              <RevealItem key={study.slug} className="min-w-0">
-                <FeaturedStoryCard study={study} customer={customer} />
-              </RevealItem>
+            <div className="lg:col-span-5">
+              {lead ? <StoryTile study={lead.study} customer={lead.customer} size="lead" /> : null}
+            </div>
+
+            {others.map(({ study, customer }, index) => (
+              <Reveal
+                key={study.slug}
+                delay={index * 0.06}
+                className={index === 0 ? "min-w-0 lg:col-span-7" : "min-w-0 lg:col-span-5"}
+              >
+                <StoryTile study={study} customer={customer} />
+              </Reveal>
             ))}
-          </RevealGroup>
+          </div>
         </Container>
       </Section>
 
-      {/* 3. All partners */}
+      {/* 2. All partners */}
       <Section id="partners" background="subtle" bordered="both" className="scroll-mt-20" aria-labelledby="partners-title">
         <Container>
           <SectionHeader
             eyebrow="All design partners"
             title={<span id="partners-title">Results by partner</span>}
-            lede="Three results per partner, the agents it runs, and where it operates. Partners without a published case study are listed with their results."
+            lede="Three results per partner, the agents it runs, and where it operates, across healthcare, logistics, financial services, retail, energy, food production, manufacturing, and banking."
           />
           <CustomerGrid items={gridItems} />
           <Footnotes className="mt-12" />
         </Container>
       </Section>
 
-      {/* 4. Testimonials */}
+      {/* 3. Testimonials */}
       <Section aria-labelledby="quotes-title">
         <Container>
           <SectionHeader
@@ -184,7 +190,7 @@ export default function CustomersPage() {
         </Container>
       </Section>
 
-      {/* 5. CTA */}
+      {/* 4. CTA */}
       <CtaBand
         title="See these agents on your data"
         lede="Book a demo and we will map agents to the workflows that pay back first, or compare plans and credits on the pricing page."

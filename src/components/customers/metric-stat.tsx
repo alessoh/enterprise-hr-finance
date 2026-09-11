@@ -53,13 +53,13 @@ export function CompactMetric({ metric, footnote = 1, className }: CompactMetric
             {metric.prefix ? <span>{metric.prefix}</span> : null}
             <span>{formatNumber(n, { decimals: decimalsFor(n) })}</span>
             {metric.suffix?.trim() ? (
-              <span className="ml-0.5 text-[0.6em] font-medium tracking-[-0.01em] text-fg-muted">{metric.suffix.trim()}</span>
+              <span className="ml-[0.16em] text-[0.6em] font-medium tracking-[-0.01em] text-fg-muted">{metric.suffix.trim()}</span>
             ) : null}
           </>
         ) : (
           <span>{metric.value}</span>
         )}
-        {metric.footnote ? <FootnoteRef n={footnote} className="ml-1 self-start tracking-normal" /> : null}
+        {metric.footnote ? <FootnoteRef n={footnote} className="tracking-normal" /> : null}
       </div>
       <p className="text-[0.8125rem] leading-snug text-pretty text-fg-muted">{metric.label}</p>
     </div>

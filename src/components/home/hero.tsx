@@ -7,6 +7,9 @@ import { Reveal } from "@/components/ui/reveal";
 import { homeCopy } from "@/content/home";
 
 import { HeroMeridian } from "@/components/three/hero-meridian";
+import { LogoWall } from "@/components/ui/logo-wall";
+
+import { HeroCheckpoint } from "./hero-checkpoint";
 
 /** Trust line per DESIGN.md §8 (Home hero). Not an outcome figure, so no footnote. */
 const trustLine = ["SOC 2 Type II", "ISO 27001", "No training on your data"];
@@ -51,9 +54,31 @@ export function Hero() {
               </ul>
             </Reveal>
           </div>
-          <div className="relative mx-auto w-full max-w-[320px] lg:max-w-[640px]">
+          {/* The globe is the atmosphere; the checkpoint card is the claim. An agent
+              acted, and a person still decides. */}
+          <div className="relative mx-auto w-full max-w-[360px] lg:max-w-[640px]">
             <HeroMeridian />
+            <div className="mt-6 flex justify-center lg:absolute lg:bottom-2 lg:-left-6 lg:mt-0 lg:justify-start">
+              <HeroCheckpoint />
+            </div>
           </div>
+        </div>
+      </Container>
+      <Container className="mt-16 lg:mt-20">
+        <div className="border-t border-border pt-8">
+          <LogoWall
+            variant="row"
+            labelAlign="left"
+            label={homeCopy.logoWallLabel}
+            names={[
+              "Northwind Logistics",
+              "Halvorsen Health",
+              "Bluepeak Energy",
+              "Castellan Financial",
+              "Orion Retail Group",
+              "Atlas Manufacturing",
+            ]}
+          />
         </div>
       </Container>
     </section>

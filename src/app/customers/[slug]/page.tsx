@@ -65,7 +65,7 @@ const NAV_ITEMS = [
 
 function MetaRow({ term, children }: { term: string; children: React.ReactNode }) {
   return (
-    <div className="grid grid-cols-[6.5rem_minmax(0,1fr)] gap-4 py-3.5">
+    <div className="grid grid-cols-[5.5rem_minmax(0,1fr)] gap-4 py-3.5">
       <dt className="text-[0.8125rem] text-fg-subtle">{term}</dt>
       <dd className="text-sm text-fg">{children}</dd>
     </div>
@@ -102,18 +102,21 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
           <Breadcrumbs
             items={[{ label: "Home", href: "/" }, { label: "Customers", href: "/customers" }, { label: customer.name }]}
           />
-          <div className="mt-12 grid gap-12 lg:mt-16 lg:grid-cols-12 lg:gap-16">
-            <div className="lg:col-span-8">
+          {/* The headline column runs to within 16rem of the container edge, so a
+              result-led H1 sets in three or four even lines instead of breaking a
+              hyphenated compound. Display type never auto-hyphenates. */}
+          <div className="mt-12 grid gap-12 lg:mt-16 lg:grid-cols-[minmax(0,1fr)_16rem] lg:gap-x-12">
+            <div>
               <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
                 <PartnerWordmark name={customer.name} fallback={customer.logoText} />
                 <Eyebrow>Customer story</Eyebrow>
               </div>
-              <h1 id="story-title" className="text-h1 mt-8 text-balance">
+              <h1 id="story-title" className="text-h1 mt-8 hyphens-none text-balance">
                 {study.title}
               </h1>
               <p className="text-lede mt-6 max-w-[62ch] text-pretty">{study.subtitle}</p>
             </div>
-            <aside className="lg:col-span-4 lg:pt-14" aria-label="Deployment facts">
+            <aside className="lg:pt-14" aria-label="Deployment facts">
               <dl className="divide-y divide-border border-y border-border">
                 <MetaRow term="Industry">{customer.industry}</MetaRow>
                 <MetaRow term="Size">

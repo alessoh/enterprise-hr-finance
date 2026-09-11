@@ -68,11 +68,16 @@ export default function ChangelogPage() {
             <Eyebrow>Changelog</Eyebrow>
             <h1 className="text-h1 mt-4">What shipped</h1>
             <p className="text-lede mt-4 max-w-[60ch]">
-              Every agent release, platform change, and security update, newest first.{" "}
-              <Link href="/feed.xml" className="text-accent underline underline-offset-4">
+              Every agent release, platform change, and security update, newest first.
+            </p>
+            {/* Its own action, not a link wrapping mid-phrase inside the lede. */}
+            <p className="mt-5">
+              <Link
+                href="/feed.xml"
+                className="inline-flex items-center gap-1.5 text-[0.9375rem] whitespace-nowrap text-accent underline decoration-accent/35 underline-offset-4 transition-colors duration-150 hover:text-accent-hover hover:decoration-current"
+              >
                 Subscribe by RSS
               </Link>
-              .
             </p>
           </div>
         </Container>

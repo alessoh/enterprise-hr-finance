@@ -33,6 +33,9 @@ export default function PlatformPage() {
     (p): p is NonNullable<typeof p> => Boolean(p),
   );
   const trust = getPlatformPillar("trust");
+  const parts = platformOverview.parts
+    .map((slug) => getPlatformPillar(slug))
+    .filter((p): p is NonNullable<typeof p> => Boolean(p));
 
   return (
     <>
@@ -64,8 +67,18 @@ export default function PlatformPage() {
             <h1 id="platform-title" className="text-h1 mt-4 text-balance">
               {platformOverview.title}
             </h1>
-            <p className="text-lede mt-6 max-w-[64ch] text-pretty">{platformOverview.lede}</p>
+            <p className="text-lede mt-6 max-w-[60ch] text-pretty">{platformOverview.lede}</p>
           </div>
+          {/* Outside the prose measure: the six parts span the container, in the same
+              order as the diagram below. */}
+          <dl className="mt-12 grid gap-x-10 sm:grid-cols-2 lg:mt-14 lg:grid-cols-3">
+            {parts.map((part) => (
+              <div key={part.slug} className="border-t border-border py-4">
+                <dt className="text-[0.9375rem] font-medium text-fg">{part.name}</dt>
+                <dd className="mt-1 text-sm leading-relaxed text-fg-muted">{part.eyebrow}</dd>
+              </div>
+            ))}
+          </dl>
         </Container>
         <Container size="wide" className="mt-14 lg:mt-20">
           <div className="relative isolate">

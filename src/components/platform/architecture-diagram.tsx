@@ -4,6 +4,13 @@ import { cn } from "@/lib/utils";
  * Platform architecture as inline SVG (server-rendered, real text nodes).
  * Two variants: a landscape diagram from lg up and a stacked variant below lg
  * so labels stay >= 12px at 390px. Hairline boxes and connectors in tokens.
+ *
+ * Geometry rules, so the diagram stays a system rather than a drawing:
+ * - Every node is one of exactly two widths per variant (WIDE / NARROW below).
+ * - Every node carries a 2px cap rule on its top edge; the rule is ink on the
+ *   one node the diagram is about and `border-strong` on the rest.
+ * - Both groups (inside the boundary, outside it) are drawn as a rounded
+ *   hairline container with its name seated into the top rule.
  */
 
 const TITLE = "fill-fg text-[15px] font-medium";
@@ -12,6 +19,13 @@ const ROW = "fill-fg text-[12px]";
 const LABEL = "fill-fg-subtle text-[12px]";
 const BOX = "fill-bg-elevated stroke-border";
 const HAIR = "fill-none stroke-border-strong";
+
+/** Landscape node widths. */
+const LG_WIDE = 300;
+const LG_NARROW = 180;
+/** Stacked node widths. */
+const SM_WIDE = 300;
+const SM_NARROW = 144;
 
 interface NodeProps {
   x: number;
@@ -22,9 +36,9 @@ interface NodeProps {
   sub?: string;
   rows?: string[];
   /**
-   * Marks the one node the diagram is about. Every node keeps the same hairline
-   * border; emphasis is a 3px ink rule on the leading edge, the same device the
-   * site uses elsewhere (`border-t border-fg` headers, the active ink chip).
+   * Marks the one node the diagram is about. Every node carries the same cap
+   * rule on its top edge; emphasis only changes that rule from `border-strong`
+   * to ink, the same device as the site's `border-t border-fg` column headers.
    * Exactly one node per diagram may carry it.
    */
   emphasis?: boolean;
@@ -35,7 +49,15 @@ function Node({ x, y, w, h, title, sub, rows, emphasis }: NodeProps) {
   return (
     <g>
       <rect x={x} y={y} width={w} height={h} rx={10} vectorEffect="non-scaling-stroke" className={BOX} />
-      {emphasis ? <rect x={x} y={y + 10} width={3} height={h - 20} rx={1.5} className="fill-fg" /> : null}
+      <line
+        x1={x + 10}
+        x2={x + w - 10}
+        y1={y}
+        y2={y}
+        strokeWidth={2}
+        vectorEffect="non-scaling-stroke"
+        className={emphasis ? "stroke-fg" : "stroke-border-strong"}
+      />
       <text x={x + px} y={y + 28} className={TITLE}>
         {title}
       </text>
@@ -76,10 +98,11 @@ function Chip({ x, y, w, label }: { x: number; y: number; w: number; label: stri
   );
 }
 
+/** A system outside the trust boundary. Tinted rather than elevated, so the two populations read apart. */
 function Ext({ x, y, w, title, sub }: { x: number; y: number; w: number; title: string; sub: string }) {
   return (
     <g>
-      <rect x={x} y={y} width={w} height={56} rx={8} vectorEffect="non-scaling-stroke" className="fill-bg stroke-border-strong" strokeDasharray="4 4" />
+      <rect x={x} y={y} width={w} height={56} rx={8} vectorEffect="non-scaling-stroke" className="fill-bg-subtle stroke-border" />
       <text x={x + 14} y={y + 23} className="fill-fg text-[13px] font-medium">
         {title}
       </text>
@@ -91,16 +114,16 @@ function Ext({ x, y, w, title, sub }: { x: number; y: number; w: number; title: 
 }
 
 /**
- * The boundary label is seated into the dashed rule rather than floated on it:
- * an unbordered `bg` gap breaks the dash, and the centred label keeps equal
- * padding on both sides. `cy` is the y of the boundary line it sits in.
+ * A group name seated into the top rule of the container it names rather than
+ * floated beside it: an unbordered `bg` gap breaks the rule and the centred
+ * label keeps equal padding on both sides. `cy` is the y of that rule.
  */
-function Legend({ x, cy, w, id }: { x: number; cy: number; w: number; id: string }) {
+function Legend({ x, cy, w, id, label }: { x: number; cy: number; w: number; id: string; label: string }) {
   return (
     <g>
       <rect x={x} y={cy - 10} width={w} height={20} className="fill-bg" />
       <text id={id} x={x + w / 2} y={cy + 4} textAnchor="middle" className="fill-fg text-[12px] font-medium tracking-[0.04em]">
-        Trust boundary
+        {label}
       </text>
     </g>
   );
@@ -123,7 +146,7 @@ function LandscapeDiagram({ className }: { className?: string }) {
   const m = "url(#arch-arrow-lg)";
   return (
     <svg
-      viewBox="0 0 960 540"
+      viewBox="0 0 1024 568"
       role="img"
       aria-labelledby="arch-lg-title"
       aria-describedby="arch-lg-desc"
@@ -134,30 +157,30 @@ function LandscapeDiagram({ className }: { className?: string }) {
       <ArrowDefs id="arch-arrow-lg" />
 
       {/* Trust boundary */}
-      <rect x={24} y={24} width={636} height={492} rx={16} strokeDasharray="6 6" vectorEffect="non-scaling-stroke" className={HAIR} />
-      <Legend x={40} cy={24} w={112} id="arch-lg-legend" />
-      <text x={44} y={500} className={LABEL}>
+      <rect x={16} y={24} width={756} height={528} rx={16} vectorEffect="non-scaling-stroke" className={HAIR} />
+      <Legend x={44} cy={24} w={112} id="arch-lg-legend" label="Trust boundary" />
+      <text x={44} y={532} className={LABEL}>
         Approval holds · immutable audit trail · role-based access · SOC 2 Type II · ISO 27001 · EU/US residency
       </text>
 
       {/* People -> Assist */}
-      <text x={360} y={54} textAnchor="middle" className={LABEL}>
+      <text x={394} y={58} textAnchor="middle" className={LABEL}>
         Employees · managers · finance teams
       </text>
-      <line x1={360} y1={62} x2={360} y2={82} vectorEffect="non-scaling-stroke" className={HAIR} markerEnd={m} />
+      <line x1={394} y1={66} x2={394} y2={86} vectorEffect="non-scaling-stroke" className={HAIR} markerEnd={m} />
 
-      <Node x={200} y={84} w={320} h={72} title="Assist" sub="Front door · browser, Slack, Microsoft Teams" />
+      <Node x={244} y={88} w={LG_WIDE} h={68} title="Assist" sub="Front door · browser, Slack, Microsoft Teams" />
 
       {/* Assist -> Registry */}
-      <line x1={360} y1={156} x2={360} y2={206} vectorEffect="non-scaling-stroke" className={HAIR} markerEnd={m} />
-      <text x={370} y={186} className={LABEL}>
+      <line x1={394} y1={156} x2={394} y2={206} vectorEffect="non-scaling-stroke" className={HAIR} markerEnd={m} />
+      <text x={404} y={186} className={LABEL}>
         runs agents as the user
       </text>
 
       <Node
-        x={200}
+        x={244}
         y={208}
-        w={320}
+        w={LG_WIDE}
         h={112}
         title="Registry"
         sub="System of record for every agent"
@@ -166,15 +189,15 @@ function LandscapeDiagram({ className }: { className?: string }) {
       />
 
       {/* Studio -> Registry */}
-      <Node x={40} y={232} w={136} h={64} title="Studio" sub="Low-code builder" />
-      <line x1={176} y1={264} x2={198} y2={264} vectorEffect="non-scaling-stroke" className={HAIR} markerEnd={m} />
+      <Node x={40} y={232} w={LG_NARROW} h={64} title="Studio" sub="Low-code builder" />
+      <line x1={222} y1={264} x2={242} y2={264} vectorEffect="non-scaling-stroke" className={HAIR} markerEnd={m} />
 
       {/* Registry <-> Gateway */}
-      <line x1={520} y1={264} x2={560} y2={264} vectorEffect="non-scaling-stroke" className={HAIR} markerStart={m} markerEnd={m} />
+      <line x1={546} y1={264} x2={566} y2={264} vectorEffect="non-scaling-stroke" className={HAIR} markerStart={m} markerEnd={m} />
       <Node
-        x={560}
+        x={568}
         y={208}
-        w={200}
+        w={LG_NARROW}
         h={112}
         title="Gateway"
         sub="Policy enforcement point"
@@ -182,33 +205,32 @@ function LandscapeDiagram({ className }: { className?: string }) {
       />
 
       {/* Outside the boundary */}
-      <text x={784} y={150} className={LABEL}>
-        Outside the boundary
-      </text>
-      <path d="M784 192 H772 V264 H762" vectorEffect="non-scaling-stroke" className={HAIR} markerEnd={m} />
-      <path d="M760 264 H784" vectorEffect="non-scaling-stroke" className={HAIR} />
-      <path d="M760 264 H772 V336 H782" vectorEffect="non-scaling-stroke" className={HAIR} markerEnd={m} />
-      <Ext x={784} y={164} w={160} title="Third-party agents" sub="MCP · A2A protocols" />
-      <Ext x={784} y={236} w={160} title="Identity provider" sub="OIDC · SAML · SCIM" />
-      <Ext x={784} y={308} w={160} title="Observability" sub="OpenTelemetry (OTLP)" />
+      <rect x={796} y={140} width={212} height={248} rx={16} vectorEffect="non-scaling-stroke" className="fill-none stroke-border" />
+      <Legend x={831} cy={140} w={142} id="arch-lg-outside" label="Outside the boundary" />
+      <path d="M812 192 H780 V264 H752" vectorEffect="non-scaling-stroke" className={HAIR} markerEnd={m} />
+      <path d="M748 264 H812" vectorEffect="non-scaling-stroke" className={HAIR} />
+      <path d="M748 264 H780 V336 H808" vectorEffect="non-scaling-stroke" className={HAIR} markerEnd={m} />
+      <Ext x={812} y={164} w={LG_NARROW} title="Third-party agents" sub="MCP · A2A protocols" />
+      <Ext x={812} y={236} w={LG_NARROW} title="Identity provider" sub="OIDC · SAML · SCIM" />
+      <Ext x={812} y={308} w={LG_NARROW} title="Observability" sub="OpenTelemetry (OTLP)" />
 
       {/* Down to Data Fabric */}
-      <line x1={108} y1={296} x2={108} y2={370} vectorEffect="non-scaling-stroke" className={HAIR} markerEnd={m} />
-      <line x1={360} y1={320} x2={360} y2={370} vectorEffect="non-scaling-stroke" className={HAIR} markerEnd={m} />
-      <text x={370} y={350} className={LABEL}>
+      <path d="M130 296 V332 H314 V368" vectorEffect="non-scaling-stroke" className={HAIR} markerEnd={m} />
+      <line x1={394} y1={320} x2={394} y2={368} vectorEffect="non-scaling-stroke" className={HAIR} markerEnd={m} />
+      <text x={404} y={358} className={LABEL}>
         every read logged
       </text>
-      <line x1={600} y1={320} x2={600} y2={370} vectorEffect="non-scaling-stroke" className={HAIR} markerEnd={m} />
-      <text x={590} y={350} textAnchor="end" className={LABEL}>
+      <path d="M658 320 V332 H514 V368" vectorEffect="non-scaling-stroke" className={HAIR} markerEnd={m} />
+      <text x={668} y={350} className={LABEL}>
         scoped reads
       </text>
 
-      <Node x={40} y={372} w={600} h={104} title="Data Fabric" sub="Zero-copy access · security inherited from the source" />
-      <Chip x={58} y={436} w={78} label="Snowflake" />
-      <Chip x={144} y={436} w={84} label="Databricks" />
-      <Chip x={236} y={436} w={72} label="BigQuery" />
-      <Chip x={316} y={436} w={106} label="Apache Iceberg" />
-      <Chip x={430} y={436} w={124} label="3,000+ connectors" />
+      <Node x={244} y={372} w={LG_WIDE} h={128} title="Data Fabric" sub="Zero-copy access · security inherited" />
+      <Chip x={262} y={434} w={78} label="Snowflake" />
+      <Chip x={348} y={434} w={84} label="Databricks" />
+      <Chip x={440} y={434} w={72} label="BigQuery" />
+      <Chip x={262} y={466} w={106} label="Apache Iceberg" />
+      <Chip x={376} y={466} w={124} label="3,000+ connectors" />
     </svg>
   );
 }
@@ -227,21 +249,21 @@ function StackedDiagram({ className }: { className?: string }) {
       <desc id="arch-sm-desc">{DESCRIPTION}</desc>
       <ArrowDefs id="arch-arrow-sm" />
 
-      <rect x={6} y={12} width={332} height={556} rx={14} strokeDasharray="6 6" vectorEffect="non-scaling-stroke" className={HAIR} />
-      <Legend x={20} cy={12} w={112} id="arch-sm-legend" />
+      <rect x={6} y={12} width={332} height={556} rx={14} vectorEffect="non-scaling-stroke" className={HAIR} />
+      <Legend x={20} cy={12} w={112} id="arch-sm-legend" label="Trust boundary" />
 
       <text x={172} y={44} textAnchor="middle" className={LABEL}>
         Employees · managers · finance teams
       </text>
       <line x1={172} y1={50} x2={172} y2={66} vectorEffect="non-scaling-stroke" className={HAIR} markerEnd={m} />
 
-      <Node x={22} y={68} w={300} h={60} title="Assist" sub="Front door · browser, Slack, Teams" />
+      <Node x={22} y={68} w={SM_WIDE} h={60} title="Assist" sub="Front door · browser, Slack, Teams" />
       <line x1={172} y1={128} x2={172} y2={150} vectorEffect="non-scaling-stroke" className={HAIR} markerEnd={m} />
 
       <Node
         x={22}
         y={152}
-        w={300}
+        w={SM_WIDE}
         h={92}
         title="Registry"
         sub="System of record for every agent"
@@ -252,13 +274,13 @@ function StackedDiagram({ className }: { className?: string }) {
       <path d="M172 244 V256 H94 V266" vectorEffect="non-scaling-stroke" className={HAIR} />
       <path d="M172 244 V256 H250 V266" vectorEffect="non-scaling-stroke" className={HAIR} />
 
-      <Node x={22} y={268} w={144} h={100} title="Studio" sub="Low-code builder" rows={["Approvals built in", "Evaluation sets"]} />
-      <Node x={178} y={268} w={144} h={100} title="Gateway" sub="Policy on every call" rows={["MCP · A2A · OTLP", "OIDC · SAML · SCIM"]} />
+      <Node x={22} y={268} w={SM_NARROW} h={100} title="Studio" sub="Low-code builder" rows={["Approvals built in", "Evaluation sets"]} />
+      <Node x={178} y={268} w={SM_NARROW} h={100} title="Gateway" sub="Policy on every call" rows={["MCP · A2A · OTLP", "OIDC · SAML · SCIM"]} />
 
       <line x1={94} y1={368} x2={94} y2={390} vectorEffect="non-scaling-stroke" className={HAIR} markerEnd={m} />
       <line x1={250} y1={368} x2={250} y2={390} vectorEffect="non-scaling-stroke" className={HAIR} markerEnd={m} />
 
-      <Node x={22} y={392} w={300} h={124} title="Data Fabric" sub="Zero-copy · security inherited" />
+      <Node x={22} y={392} w={SM_WIDE} h={124} title="Data Fabric" sub="Zero-copy · security inherited" />
       <Chip x={40} y={448} w={78} label="Snowflake" />
       <Chip x={126} y={448} w={84} label="Databricks" />
       <Chip x={218} y={448} w={72} label="BigQuery" />
@@ -281,8 +303,8 @@ export function ArchitectureDiagram({ className }: { className?: string }) {
       <LandscapeDiagram className="hidden lg:block" />
       <StackedDiagram className="mx-auto max-w-[24rem] lg:hidden" />
       <figcaption className="mx-auto mt-6 max-w-[62ch] text-center text-[0.8125rem] leading-relaxed text-fg-subtle">
-        Six parts, one boundary. Assist is the front door, Registry the system of record, Gateway the policy point at the
-        edge, Studio the builder, Data Fabric the base, and Trust the constraints every agent runs inside.
+        Six parts, one boundary. Assist is the front door, Registry the system of record, Studio the builder, Gateway the
+        policy point at the edge, Data Fabric the base, and Trust the constraints every agent runs inside.
       </figcaption>
     </figure>
   );
