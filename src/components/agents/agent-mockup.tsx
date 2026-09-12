@@ -505,7 +505,9 @@ function ControlsExceptions() {
               </Cell>
               <Cell className="text-right">
                 {approval ? (
-                  <span className="rounded-md border border-border-strong px-2 py-0.5 text-[11px] font-medium text-fg">
+                  // Illustrative only, like the rest of this mockup: inert so it never
+                  // invites a click that cannot do anything.
+                  <span className="pointer-events-none rounded-md border border-border-strong px-2 py-0.5 text-[11px] font-medium text-fg">
                     Approve
                   </span>
                 ) : (
