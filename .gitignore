@@ -32,3 +32,6 @@ next-env.d.ts
 # Third-party reference screenshots used only by the local design gauntlet.
 # Kept out of the repo: they are other companies' copyrighted page designs.
 research/refs/
+
+# Local video recordings (too large for GitHub)
+*.mp4
